@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Saira+Extra+Condensed:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #0E0E0E;
+    --foreground: #FFFFFF;
+    --card-bg: #242424;
+    --border: #FFFFFF44;
+    --accent: #D1493D;
+    --accent-hover: #992E24;
+    --muted: #FFFFFF80;
+    --hex: #E23167;
+    --glow: #79F528;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Saira Extra Condensed', system-ui, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-weight: 800;
+  }
+
+  p {
+    line-height: 1.7;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-boba-red hover:bg-boba-red-dark text-white font-bold px-6 py-2.5 rounded-full transition-all duration-200 uppercase tracking-wider;
+    font-family: 'Saira Extra Condensed', system-ui, sans-serif;
+    font-size: 1rem;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent hover:bg-white/10 text-white font-bold px-6 py-2.5 rounded-full border-2 border-white/25 transition-all duration-200 uppercase tracking-wider;
+    font-family: 'Saira Extra Condensed', system-ui, sans-serif;
+    font-size: 1rem;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--hex);
+    color: var(--hex);
+  }
+
+  .card {
+    @apply bg-boba-gray rounded-boba border border-white/10 overflow-hidden;
+    transition: all 0.3s ease;
+  }
+
+  .card:hover {
+    border-color: rgba(226, 49, 103, 0.5);
+    box-shadow: 0 0 20px rgba(226, 49, 103, 0.15), 0 0 40px rgba(121, 245, 40, 0.08);
+    transform: translateY(-2px);
+  }
+
+  .input {
+    @apply bg-boba-gray/80 border-2 border-white/15 rounded-boba px-4 py-2.5 text-white placeholder-white/40 focus:outline-none focus:ring-0 focus:border-boba-red transition-colors;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider;
+    font-family: 'Saira Extra Condensed', system-ui, sans-serif;
+  }
+
+  .badge-fire { @apply bg-fire/20 text-fire-light; }
+  .badge-ice { @apply bg-ice/20 text-ice-light; }
+  .badge-steel { @apply bg-steel/20 text-steel-light; }
+  .badge-glow { @apply bg-glow/20 text-glow; }
+  .badge-hex { @apply bg-hex/20 text-hex-light; }
+  .badge-gum { @apply bg-gum/20 text-gum-light; }
+  .badge-brawl { @apply bg-brawl/20 text-brawl-light; }
+  .badge-super { @apply bg-super/20 text-super; }
+  .badge-alt { @apply bg-alt/20 text-alt-light; }
+  .badge-cyber { @apply bg-cyber/20 text-cyber-light; }
+
+  .gradient-hex-glow {
+    background: linear-gradient(135deg, var(--hex) 0%, var(--glow) 100%);
+  }
+
+  .text-gradient-hex-glow {
+    background: linear-gradient(135deg, var(--hex) 0%, var(--glow) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glow-border {
+    position: relative;
+  }
+
+  .glow-border::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: linear-gradient(135deg, var(--hex), var(--glow), var(--hex));
+    border-radius: inherit;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .glow-border:hover::before {
+    opacity: 1;
+  }
+
+  .weapon-glow-fire:hover { box-shadow: 0 0 25px rgba(209, 73, 61, 0.4); border-color: #D1493D; }
+  .weapon-glow-ice:hover { box-shadow: 0 0 25px rgba(30, 178, 242, 0.4); border-color: #1EB2F2; }
+  .weapon-glow-steel:hover { box-shadow: 0 0 25px rgba(168, 178, 192, 0.4); border-color: #A8B2C0; }
+  .weapon-glow-glow:hover { box-shadow: 0 0 25px rgba(121, 245, 40, 0.4); border-color: #79F528; }
+  .weapon-glow-hex:hover { box-shadow: 0 0 25px rgba(226, 49, 103, 0.4); border-color: #E23167; }
+  .weapon-glow-gum:hover { box-shadow: 0 0 25px rgba(255, 105, 180, 0.4); border-color: #FF69B4; }
+  .weapon-glow-brawl:hover { box-shadow: 0 0 25px rgba(242, 132, 30, 0.4); border-color: #F2841E; }
+  .weapon-glow-super:hover { box-shadow: 0 0 25px rgba(255, 215, 0, 0.4); border-color: #FFD700; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: #0E0E0E; }
+  ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #D1493D; }
+}
