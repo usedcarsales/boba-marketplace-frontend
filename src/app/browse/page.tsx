@@ -236,6 +236,13 @@ function BrowseContent() {
                             className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             loading="lazy"
                           />
+                        ) : card.last_sale_image ? (
+                          <img
+                            src={card.last_sale_image}
+                            alt={card.name}
+                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            loading="lazy"
+                          />
                         ) : (
                           <span className="text-5xl text-white/20 group-hover:scale-110 transition-transform duration-300">🃏</span>
                         )}
