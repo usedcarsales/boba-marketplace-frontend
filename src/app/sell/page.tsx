@@ -15,6 +15,7 @@ interface CardEntry {
   p: string;
   img?: string;
   lsp?: number;
+  radish_id?: number;
 }
 
 const CONDITIONS = [
