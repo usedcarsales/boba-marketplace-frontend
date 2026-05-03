@@ -43,6 +43,14 @@ function CardItem({ card }: { card: Card }) {
               className="object-cover group-hover:scale-105 transition-transform duration-300"
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
             />
+          ) : card.last_sale_image ? (
+            <Image
+              src={card.last_sale_image}
+              alt={card.name}
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-300 opacity-90"
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+            />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center text-gray-600">
               <span className="text-4xl">🃏</span>
