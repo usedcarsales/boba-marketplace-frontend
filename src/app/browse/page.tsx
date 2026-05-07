@@ -14,6 +14,7 @@ interface CardEntry {
   weapon: string | null;
   parallel: string | null;
   image_url: string | null;
+  last_sale_image?: string | null;
   last_sale_price: number | null;
   power: number | null;
 }

@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { Web3Provider } from "@/components/Web3Provider";
+
+const Web3Provider = dynamic(() => import("@/components/Web3Provider").then(m => m.Web3Provider), {
+  ssr: false,
+});
 
 export const metadata: Metadata = {
   title: "BoBA Market — Buy & Sell Bo Jackson Battle Arena™ Cards",
