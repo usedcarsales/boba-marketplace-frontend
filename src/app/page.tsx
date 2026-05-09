@@ -157,6 +157,16 @@ export default function HomePage() {
                 <span className="flex items-center gap-2"><span className="text-ice text-lg">●</span> Free Listings</span>
                 <span className="flex items-center gap-2"><span className="text-super text-lg">●</span> 8% Fee</span>
               </div>
+
+              {/* eBay import CTA */}
+              <div className="mt-4">
+                <Link
+                  href="/dashboard/sell/import-ebay"
+                  className="inline-flex items-center gap-2 text-sm text-hex/70 hover:text-hex transition-colors font-display"
+                >
+                  📥 Already selling on eBay? <span className="underline">Import your listings in seconds →</span>
+                </Link>
+              </div>
             </div>
 
             {/* Hero card images */}

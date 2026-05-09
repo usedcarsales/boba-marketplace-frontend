@@ -23,9 +23,14 @@ export default function SellerListingsPage() {
           <h1 className="text-5xl font-display font-black text-white">My Listings</h1>
           <p className="text-xl text-white/40 font-body mt-1">Manage your card inventory</p>
         </div>
-        <Link href="/sell" className="btn-primary text-lg px-8 py-3">
-          ➕ New Listing
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link href="/dashboard/sell/import-ebay" className="btn-secondary text-lg px-6 py-3">
+            📥 Import eBay
+          </Link>
+          <Link href="/sell" className="btn-primary text-lg px-8 py-3">
+            ➕ New Listing
+          </Link>
+        </div>
       </div>
 
       {/* Filters */}
