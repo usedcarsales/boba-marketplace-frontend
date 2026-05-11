@@ -47,7 +47,9 @@ export default function SellerOnboardPage() {
           }
         }
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.error('Onboard status check failed:', err);
+      });
   }, [router]);
 
   const startStripeOnboarding = async () => {
@@ -61,6 +63,18 @@ export default function SellerOnboardPage() {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
       });
+      
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        if (res.status === 401) {
+          setError("Session expired — please log in again");
+          router.push("/auth?redirect=/dashboard/sell/onboard");
+          return;
+        }
+        setError(data.detail || data.message || `Error ${res.status}: ${res.statusText}`);
+        return;
+      }
+      
       const data = await res.json();
       
       if (data.url) {
@@ -71,8 +85,12 @@ export default function SellerOnboardPage() {
       } else {
         setError(data.message || "Failed to start onboarding");
       }
-    } catch {
-      setError("Network error — please try again");
+    } catch (err: any) {
+      if (err instanceof TypeError && err.message === 'Failed to fetch') {
+        setError('Network error — server may be waking up. Please try again in 30 seconds.');
+      } else {
+        setError(err?.message || 'Network error — please try again');
+      }
     }
     setLoading(false);
   };
