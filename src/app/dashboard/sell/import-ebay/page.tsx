@@ -109,8 +109,8 @@ export default function ImportEbayPage() {
         const err = await res.json();
         setError(err.detail || "Import failed");
       }
-    } catch {
-      setError("Network error during import");
+    } catch (err: any) {
+      setError(err?.message || err?.toString?.() || "Network error — check your connection and try again");
     } finally {
       setImporting(false);
     }
@@ -145,8 +145,8 @@ export default function ImportEbayPage() {
         const err = await res.json();
         setError(err.detail || "Update failed");
       }
-    } catch {
-      setError("Network error");
+    } catch (err: any) {
+      setError(err?.message || err?.toString?.() || "Network error");
     }
   };
 
