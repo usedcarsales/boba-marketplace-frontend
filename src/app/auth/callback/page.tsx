@@ -16,6 +16,7 @@ function CallbackHandler() {
     const username = searchParams.get("username");
     const displayName = searchParams.get("display_name");
     const avatarUrl = searchParams.get("avatar_url");
+    const role = searchParams.get("role");
 
     if (!accessToken || !refreshToken) {
       setError("Authentication failed — missing tokens. Please try again.");
@@ -32,7 +33,7 @@ function CallbackHandler() {
         username: username,
         display_name: displayName || username,
         avatar_url: avatarUrl || null,
-        role: "user",
+        role: role || "user",
       })
     );
 
