@@ -59,6 +59,12 @@ export default function InventoryPage() {
         fetch(`${API_BASE}/api/listings/inventory/stats`, { headers }),
         fetch(`${API_BASE}/api/listings?seller_id=me&status=${statusFilter}&limit=100`, { headers }),
       ]);
+      if (statsRes.status === 401 || listingsRes.status === 401) {
+        // Token expired — redirect to login
+        localStorage.removeItem("boba-token");
+        window.location.href = "/auth?redirect=/dashboard/inventory";
+        return;
+      }
       if (statsRes.ok) setStats(await statsRes.json());
       if (listingsRes.ok) {
         const data = await listingsRes.json();
