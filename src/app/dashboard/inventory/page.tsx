@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-import { API_BASE } from "@/lib/api";
+import { API_BASE, apiFetch } from "@/lib/api-client";
 
 const TIER_COLORS: Record<string, string> = {
   Steel: "#71717A", Fire: "#EF4444", Ice: "#38BDF8",
@@ -45,30 +45,33 @@ export default function InventoryPage() {
   const [bulkValue, setBulkValue] = useState("");
   const [actionResult, setActionResult] = useState<string>("");
 
-  const token = typeof window !== "undefined" ? localStorage.getItem("boba-token") : null;
-  const headers = { Authorization: `Bearer ${token}`, "Content-Type": "application/json" };
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    loadData();
-  }, [statusFilter]);
+    const t = localStorage.getItem("boba-token");
+    setToken(t);
+  }, []);
+
+  useEffect(() => {
+    if (token !== null) loadData();
+  }, [statusFilter, token]);
 
   async function loadData() {
     if (!token) { setLoading(false); return; }
     try {
       const [statsRes, listingsRes] = await Promise.all([
-        fetch(`${API_BASE}/api/listings/inventory/stats`, { headers }),
-        fetch(`${API_BASE}/api/listings?seller_id=me&status=${statusFilter}&limit=100`, { headers }),
+        apiFetch(`${API_BASE}/api/listings/inventory/stats`),
+        apiFetch(`${API_BASE}/api/listings?seller_id=me&status=${statusFilter}&limit=100`),
       ]);
-      if (statsRes.status === 401 || listingsRes.status === 401) {
-        // Token expired — redirect to login
-        localStorage.removeItem("boba-token");
-        window.location.href = "/auth?redirect=/dashboard/inventory";
-        return;
-      }
       if (statsRes.ok) setStats(await statsRes.json());
       if (listingsRes.ok) {
         const data = await listingsRes.json();
         setListings(data.listings || []);
+      }
+      // If both fail with 401, apiFetch will auto-refresh and redirect
+      if (!statsRes.ok && !listingsRes.ok) {
+        const errData = await listingsRes.json().catch(() => ({}));
+        console.error("Inventory load failed:", errData);
       }
     } catch (e) {
       console.error("Failed to load inventory:", e);
@@ -99,22 +102,30 @@ export default function InventoryPage() {
 
     try {
       if (["active", "paused", "removed"].includes(bulkAction)) {
-        const res = await fetch(`${API_BASE}/api/listings/inventory/bulk-status`, {
-          method: "POST", headers,
+        const res = await apiFetch(`${API_BASE}/api/listings/inventory/bulk-status`, {
+          method: "POST",
           body: JSON.stringify({ listing_ids: ids, status: bulkAction }),
         });
         const data = await res.json();
-        setActionResult(`✅ ${data.updated} listings updated to "${bulkAction}"`);
+        if (res.ok) {
+          setActionResult(`✅ ${data.updated} listings updated to "${bulkAction}"`);
+        } else {
+          setActionResult(`❌ ${data.detail || "Update failed"}`);
+        }
       } else if (bulkAction.startsWith("price_")) {
         const type = bulkAction.replace("price_", "");
         const val = parseInt(bulkValue);
         if (isNaN(val)) { setActionResult("❌ Enter a valid number"); return; }
-        const res = await fetch(`${API_BASE}/api/listings/inventory/bulk-price`, {
-          method: "POST", headers,
+        const res = await apiFetch(`${API_BASE}/api/listings/inventory/bulk-price`, {
+          method: "POST",
           body: JSON.stringify({ listing_ids: ids, adjustment_type: type, value: val }),
         });
         const data = await res.json();
-        setActionResult(`✅ ${data.updated} prices updated`);
+        if (res.ok) {
+          setActionResult(`✅ ${data.updated} prices updated`);
+        } else {
+          setActionResult(`❌ ${data.detail || "Update failed"}`);
+        }
       }
       setSelected(new Set());
       loadData();

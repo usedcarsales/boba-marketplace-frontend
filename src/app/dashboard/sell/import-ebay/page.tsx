@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { API_BASE } from "@/lib/api";
+import { API_BASE, apiFetch } from "@/lib/api-client";
 
 interface Draft {
   id: string;
@@ -58,9 +58,7 @@ export default function ImportEbayPage() {
 
   const loadDrafts = async (t: string) => {
     try {
-      const res = await fetch(`${API_BASE}/api/import/ebay`, {
-        headers: { Authorization: `Bearer ${t}` },
-      });
+      const res = await apiFetch(`${API_BASE}/api/import/ebay`);
       if (res.ok) {
         const data = await res.json();
         setDrafts(data || []);
@@ -74,9 +72,7 @@ export default function ImportEbayPage() {
 
   const loadCards = async (t: string) => {
     try {
-      const res = await fetch(`${API_BASE}/api/cards?limit=1000`, {
-        headers: { Authorization: `Bearer ${t}` },
-      });
+      const res = await apiFetch(`${API_BASE}/api/cards?limit=1000`);
       if (res.ok) {
         const data = await res.json();
         setCards(data?.items || []);
@@ -93,12 +89,8 @@ export default function ImportEbayPage() {
     setMessage("");
 
     try {
-      const res = await fetch(`${API_BASE}/api/import/ebay`, {
+      const res = await apiFetch(`${API_BASE}/api/import/ebay`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify({
           ebay_username: ebayUsername.trim(),
           limit: 50,
@@ -111,8 +103,8 @@ export default function ImportEbayPage() {
         setMessage(`Imported ${data.imported} listings${data.skipped > 0 ? ` (${data.skipped} already existed)` : ""}`);
         setEbayUsername("");
       } else if (res.status === 401) {
-        localStorage.removeItem("boba-token");
-        router.push("/auth?redirect=/dashboard/sell/import-ebay");
+        // apiFetch already handles refresh, if we're here refresh also failed
+        setError("Session expired — please sign in again");
       } else {
         const err = await res.json();
         setError(err.detail || "Import failed");
@@ -129,12 +121,8 @@ export default function ImportEbayPage() {
     setError("");
 
     try {
-      const res = await fetch(`${API_BASE}/api/import/ebay/${draftId}`, {
+      const res = await apiFetch(`${API_BASE}/api/import/ebay/${draftId}`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify({
           card_id: updates.card?.id || null,
           condition: updates.condition,
@@ -165,9 +153,8 @@ export default function ImportEbayPage() {
   const removeDraft = async (draftId: string) => {
     if (!confirm("Remove this draft?")) return;
     try {
-      const res = await fetch(`${API_BASE}/api/import/ebay/${draftId}`, {
+      const res = await apiFetch(`${API_BASE}/api/import/ebay/${draftId}`, {
         method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok || res.status === 204) {
         setDrafts((prev) => prev.filter((d) => d.id !== draftId));
