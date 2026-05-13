@@ -9,7 +9,7 @@ const Web3Provider = dynamic(() => import("@/components/Web3Provider").then(m =>
 });
 
 export const metadata: Metadata = {
-  title: "BoBA Market — Buy & Sell Bo Jackson Battle Arena™ Cards",
+  title: "BoBA Trader — Buy & Sell Bo Jackson Battle Arena™ Cards",
   description:
     "The #1 independent marketplace for Bo Jackson Battle Arena™ trading cards. Browse 17,000+ cards, buy & sell Heroes, Plays, Hot Dogs and more.",
   keywords: ["BoBA", "Bo Jackson", "Battle Arena", "trading cards", "marketplace", "TCG", "Radish"],
