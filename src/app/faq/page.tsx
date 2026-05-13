@@ -22,19 +22,19 @@ const faqSections: FAQSection[] = [
     color: "text-hex",
     items: [
       {
-        q: "What is BoBA Market?",
-        a: "BoBA Market is the #1 independent marketplace dedicated exclusively to Bo Jackson Battle Arena (BoBA) trading cards. We connect buyers and sellers with real market pricing data, fair fees, and policies built for collectors.",
+        q: "What is BoBA Trader?",
+        a: "BoBA Trader is the #1 independent marketplace dedicated exclusively to Bo Jackson Battle Arena (BoBA) trading cards. We connect buyers and sellers with real market pricing data, fair fees, and policies built for collectors.",
       },
       {
         q: "Do I need an account to browse?",
         a: "No — browsing is open to everyone. You only need an account to buy, sell, or save cards to your watchlist.",
       },
       {
-        q: "Is BoBA Market affiliated with the official Bo Jackson Battle Arena game?",
-        a: "BoBA Market is an independent third-party marketplace. We are not affiliated with, endorsed by, or sponsored by the creators of the Bo Jackson Battle Arena game.",
+        q: "Is BoBA Trader affiliated with the official Bo Jackson Battle Arena game?",
+        a: "BoBA Trader is an independent third-party marketplace. We are not affiliated with, endorsed by, or sponsored by the creators of the Bo Jackson Battle Arena game.",
       },
       {
-        q: "What cards are listed on BoBA Market?",
+        q: "What cards are listed on BoBA Trader?",
         a: (
           <>
             We focus exclusively on Bo Jackson Battle Arena cards — Heroes, Plays, Hot Dogs, Special editions, and related accessories. We do not list other TCG products (like Pokémon or Magic) — this keeps our market data clean and our community focused.
@@ -58,7 +58,7 @@ const faqSections: FAQSection[] = [
       },
       {
         q: "Is my payment secure?",
-        a: "Yes. All payments are processed through Stripe, a PCI Level-1 certified payment processor. BoBA Market never stores your card details.",
+        a: "Yes. All payments are processed through Stripe, a PCI Level-1 certified payment processor. BoBA Trader never stores your card details.",
       },
       {
         q: "What is buyer protection?",
@@ -96,7 +96,7 @@ const faqSections: FAQSection[] = [
         q: "What if the card condition is not as described?",
         a: (
           <>
-            Condition misrepresentation is taken seriously on BoBA Market. File a dispute within 7 days. Sellers who repeatedly misrepresent condition face account suspension. See our grading standards for the full condition scale (NM / LP / MP / HP / Damaged).
+            Condition misrepresentation is taken seriously on BoBA Trader. File a dispute within 7 days. Sellers who repeatedly misrepresent condition face account suspension. See our grading standards for the full condition scale (NM / LP / MP / HP / Damaged).
           </>
         ),
       },
@@ -164,7 +164,7 @@ const faqSections: FAQSection[] = [
         a: "Yes. Graded cards should be listed with the exact grade, certification number, and photos of both the card and the slab. Misrepresenting a graded card is grounds for immediate account suspension.",
       },
       {
-        q: "What can I NOT sell on BoBA Market?",
+        q: "What can I NOT sell on BoBA Trader?",
         a: (
           <>
             The following are strictly prohibited:
@@ -185,7 +185,7 @@ const faqSections: FAQSection[] = [
       },
       {
         q: "What happens if I get a dispute filed against me?",
-        a: "You'll be notified immediately and have the opportunity to respond. BoBA Market investigates all disputes. If the buyer's claim is valid, you may be responsible for a refund or replacement. Repeat violations result in graduated enforcement: warning → temporary suspension → permanent ban.",
+        a: "You'll be notified immediately and have the opportunity to respond. BoBA Trader investigates all disputes. If the buyer's claim is valid, you may be responsible for a refund or replacement. Repeat violations result in graduated enforcement: warning → temporary suspension → permanent ban.",
       },
       {
         q: "Can I appeal a suspension?",
@@ -228,7 +228,7 @@ const faqSections: FAQSection[] = [
       },
       {
         q: "What do I do if my account is compromised?",
-        a: "Contact support immediately at support@bobamarket.com. Reset your password and review recent transactions. We will assist with any fraudulent activity on your account.",
+        a: "Contact support immediately at support@bobatrader.com. Reset your password and review recent transactions. We will assist with any fraudulent activity on your account.",
       },
     ],
   },
@@ -353,7 +353,7 @@ export default function FAQPage() {
       <div className="mb-10">
         <h1 className="text-6xl font-display font-black text-white mb-2">FAQ</h1>
         <p className="text-white/40 font-body text-lg">
-          Everything you need to know about BoBA Market.
+          Everything you need to know about BoBA Trader.
         </p>
       </div>
 
@@ -431,13 +431,13 @@ export default function FAQPage() {
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
-            href="mailto:support@bobamarket.com"
+            href="mailto:support@bobatrader.com"
             className="btn-primary"
           >
             Contact Support
           </a>
           <Link href="/about" className="btn-secondary">
-            About BoBA Market
+            About BoBA Trader
           </Link>
         </div>
       </div>

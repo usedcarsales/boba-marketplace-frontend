@@ -10,7 +10,7 @@ export function Footer() {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <span className="text-xl font-display font-black text-white uppercase tracking-wider">
-                BoBA <span className="text-super">Market</span>
+                BoBA <span className="text-super">Trader</span>
               </span>
             </div>
             <p className="text-white/70 text-sm">
@@ -63,14 +63,14 @@ export function Footer() {
         <div className="border-t border-white/20 mt-8 pt-8 space-y-3">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-white/50 text-sm">
-              © {new Date().getFullYear()} BoBA Market. All rights reserved.
+              © {new Date().getFullYear()} BoBA Trader. All rights reserved.
             </p>
             <p className="text-white/50 text-sm mt-2 md:mt-0 font-display uppercase tracking-wider">
               8% Fee + $0.25/order · Powered by Stripe · Free Listings
             </p>
           </div>
           <p className="text-white/30 text-xs text-center">
-            BoBA Market is an independent third-party marketplace. We are not affiliated with, endorsed by, or sponsored by Bo Jackson Battle Arena, Inc., Blokpax, or any of their subsidiaries. Bo Jackson Battle Arena™ and all related characters, names, and artwork are the property of their respective owners. Card images are used for product identification purposes.
+            BoBA Trader is an independent third-party marketplace. We are not affiliated with, endorsed by, or sponsored by Bo Jackson Battle Arena, Inc., Blokpax, or any of their subsidiaries. Bo Jackson Battle Arena™ and all related characters, names, and artwork are the property of their respective owners. Card images are used for product identification purposes.
           </p>
         </div>
       </div>

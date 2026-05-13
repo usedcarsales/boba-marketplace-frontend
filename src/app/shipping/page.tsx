@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Shipping — BoBA Market",
-  description: "Shipping guidelines for BoBA Market buyers and sellers.",
+  title: "Shipping — BoBA Trader",
+  description: "Shipping guidelines for BoBA Trader buyers and sellers.",
 };
 
 export default function ShippingPage() {

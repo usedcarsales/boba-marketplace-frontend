@@ -18,7 +18,7 @@ export default function SellerAgreementPage() {
       <p className="text-white/40 mb-8">Last updated: March 20, 2026 · Version 2.0</p>
 
       <div className="card border border-hex/30 bg-hex/5 p-6 mb-8">
-        <p className="text-white/80 text-lg">This Seller Agreement (&quot;Agreement&quot;) is a binding contract between you (&quot;Seller&quot;) and BoBA Market (&quot;Platform,&quot; &quot;we,&quot; &quot;us&quot;). By completing seller onboarding and listing cards for sale, you agree to all terms below in addition to our <Link href="/terms" className="text-hex hover:text-hex-light font-bold">Terms of Service</Link> and <Link href="/privacy" className="text-hex hover:text-hex-light font-bold">Privacy Policy</Link>.</p>
+        <p className="text-white/80 text-lg">This Seller Agreement (&quot;Agreement&quot;) is a binding contract between you (&quot;Seller&quot;) and BoBA Trader (&quot;Platform,&quot; &quot;we,&quot; &quot;us&quot;). By completing seller onboarding and listing cards for sale, you agree to all terms below in addition to our <Link href="/terms" className="text-hex hover:text-hex-light font-bold">Terms of Service</Link> and <Link href="/privacy" className="text-hex hover:text-hex-light font-bold">Privacy Policy</Link>.</p>
       </div>
 
       <div className="prose prose-invert max-w-none space-y-10 text-white/70 text-base leading-relaxed">
@@ -26,7 +26,7 @@ export default function SellerAgreementPage() {
         {/* 1. ELIGIBILITY */}
         <section>
           <h2 className="text-2xl font-display font-bold text-white">1. Seller Eligibility</h2>
-          <p>To sell on BoBA Market, you must:</p>
+          <p>To sell on BoBA Trader, you must:</p>
           <ul className="list-disc pl-6 space-y-1">
             <li>Be at least 18 years old (or the age of majority in your jurisdiction)</li>
             <li>Reside in a country supported by Stripe Connect</li>
@@ -53,7 +53,7 @@ export default function SellerAgreementPage() {
           </ul>
 
           <h3 className="text-lg font-display font-bold text-white/80 mt-4">2.2 Condition Grading Scale</h3>
-          <p>BoBA Market uses the industry-standard TCG grading scale:</p>
+          <p>BoBA Trader uses the industry-standard TCG grading scale:</p>
           <div className="space-y-3 mt-3">
             <div className="card border border-white/10 p-3">
               <span className="font-display font-bold text-glow">NM — Near Mint</span>
@@ -148,7 +148,7 @@ export default function SellerAgreementPage() {
         {/* 5. SELLER TIER SYSTEM */}
         <section>
           <h2 className="text-2xl font-display font-bold text-white">5. Seller Tier System</h2>
-          <p>BoBA Market operates a 6-tier seller progression system based on your trailing 30-day sales volume and buyer feedback rating. Higher tiers unlock lower fees, more listing slots, and additional tools.</p>
+          <p>BoBA Trader operates a 6-tier seller progression system based on your trailing 30-day sales volume and buyer feedback rating. Higher tiers unlock lower fees, more listing slots, and additional tools.</p>
 
           <div className="overflow-x-auto mt-4">
             <table className="w-full text-sm">
@@ -235,7 +235,7 @@ export default function SellerAgreementPage() {
           <ol className="list-decimal pl-6 space-y-1">
             <li>Buyer opens dispute with description and photo evidence</li>
             <li>Seller is notified and has <strong>72 hours</strong> to respond with their evidence</li>
-            <li>BoBA Market reviews both sides and makes a decision within <strong>5 business days</strong></li>
+            <li>BoBA Trader reviews both sides and makes a decision within <strong>5 business days</strong></li>
             <li>If found in buyer&apos;s favor: seller must accept return and full refund is issued</li>
             <li>If found in seller&apos;s favor: dispute is closed, no refund</li>
           </ol>
@@ -274,7 +274,7 @@ export default function SellerAgreementPage() {
         {/* 9. SELLER PERFORMANCE STANDARDS */}
         <section>
           <h2 className="text-2xl font-display font-bold text-white">9. Performance Standards</h2>
-          <p>To maintain good standing on BoBA Market, sellers should aim to maintain:</p>
+          <p>To maintain good standing on BoBA Trader, sellers should aim to maintain:</p>
           <ul className="list-disc pl-6 space-y-1">
             <li><strong>Overall rating:</strong> 4.0★ or above</li>
             <li><strong>On-time shipping rate:</strong> 95% or above (shipped within 48 hours)</li>
@@ -289,9 +289,9 @@ export default function SellerAgreementPage() {
           <h2 className="text-2xl font-display font-bold text-white">10. Tax Obligations</h2>
           <p>You are solely responsible for reporting and paying all taxes owed on your sales, including income tax and any applicable sales tax in your jurisdiction.</p>
           <ul className="list-disc pl-6 space-y-1">
-            <li>BoBA Market may be required to issue <strong>1099-K forms</strong> if your gross sales exceed IRS reporting thresholds ($600/year)</li>
+            <li>BoBA Trader may be required to issue <strong>1099-K forms</strong> if your gross sales exceed IRS reporting thresholds ($600/year)</li>
             <li>Stripe may collect tax identification information (SSN/EIN) as required by law</li>
-            <li>BoBA Market collects and remits sales tax in states where marketplace facilitator laws apply</li>
+            <li>BoBA Trader collects and remits sales tax in states where marketplace facilitator laws apply</li>
             <li>We do not provide tax advice — consult a qualified tax professional</li>
           </ul>
         </section>
@@ -319,14 +319,14 @@ export default function SellerAgreementPage() {
           <h2 className="text-2xl font-display font-bold text-white">12. Intellectual Property</h2>
 
           <h3 className="text-lg font-display font-bold text-white/80 mt-4">12.1 Your Content</h3>
-          <p>You retain ownership of all content you create (listing descriptions, photos, store branding). By listing on BoBA Market, you grant us a <strong>limited, non-exclusive, revocable license</strong> to display your content on the Platform for the purpose of facilitating sales. This license terminates when you remove your listing or close your account.</p>
+          <p>You retain ownership of all content you create (listing descriptions, photos, store branding). By listing on BoBA Trader, you grant us a <strong>limited, non-exclusive, revocable license</strong> to display your content on the Platform for the purpose of facilitating sales. This license terminates when you remove your listing or close your account.</p>
           <p className="mt-2">We will <strong>not</strong> use your content for any purpose unrelated to the marketplace. We do not claim perpetual or irrevocable rights to your content.</p>
 
           <h3 className="text-lg font-display font-bold text-white/80 mt-4">12.2 DMCA & Takedowns</h3>
-          <p>If you believe content on BoBA Market infringes your intellectual property, contact us at <strong>legal@bobamarket.gg</strong> with a DMCA-compliant takedown notice. We will respond within 5 business days.</p>
+          <p>If you believe content on BoBA Trader infringes your intellectual property, contact us at <strong>legal@bobatrader.com</strong> with a DMCA-compliant takedown notice. We will respond within 5 business days.</p>
 
           <h3 className="text-lg font-display font-bold text-white/80 mt-4">12.3 Third-Party IP</h3>
-          <p>Card images, names, and game data are the property of their respective rights holders. BoBA Market displays this information under nominative fair use for the purpose of facilitating secondary market sales.</p>
+          <p>Card images, names, and game data are the property of their respective rights holders. BoBA Trader displays this information under nominative fair use for the purpose of facilitating secondary market sales.</p>
         </section>
 
         {/* 13. PROHIBITED CONDUCT */}
@@ -335,7 +335,7 @@ export default function SellerAgreementPage() {
           <p>The following actions are prohibited and may result in account suspension or termination:</p>
           <ul className="list-disc pl-6 space-y-1">
             <li>Listing counterfeit, proxy, or altered cards (see Section 11)</li>
-            <li>Completing transactions off-platform to circumvent BoBA Market fees</li>
+            <li>Completing transactions off-platform to circumvent BoBA Trader fees</li>
             <li>Feedback or rating manipulation, including shill accounts</li>
             <li>Using unauthorized bots, scrapers, or automated tools without BoBA API approval</li>
             <li>Harassment, threats, or abusive communication toward buyers or staff</li>
@@ -360,7 +360,7 @@ export default function SellerAgreementPage() {
           <p className="mt-2">Counterfeit violations skip directly to permanent ban (Section 11).</p>
 
           <h3 className="text-lg font-display font-bold text-white/80 mt-4">14.2 Appeal Process</h3>
-          <p>For non-counterfeit suspensions, you may appeal within <strong>30 days</strong> by contacting <strong>appeals@bobamarket.gg</strong>. Appeals are reviewed within 10 business days. You will receive a written decision with specific reasoning.</p>
+          <p>For non-counterfeit suspensions, you may appeal within <strong>30 days</strong> by contacting <strong>appeals@bobatrader.com</strong>. Appeals are reviewed within 10 business days. You will receive a written decision with specific reasoning.</p>
 
           <h3 className="text-lg font-display font-bold text-white/80 mt-4">14.3 Payout on Termination</h3>
           <p>Pending payouts at termination are held for 90 days to cover potential refunds and disputes. After 90 days, remaining funds are released to your bank account. We will <strong>not</strong> report delinquent accounts to credit bureaus.</p>
@@ -372,17 +372,17 @@ export default function SellerAgreementPage() {
           <p>We collect and process seller data as described in our <Link href="/privacy" className="text-hex hover:text-hex-light font-bold">Privacy Policy</Link>. Key points for sellers:</p>
           <ul className="list-disc pl-6 space-y-1">
             <li>Your public store name, rating, and tier badge are visible to all users</li>
-            <li>Your identity verification data is processed by Stripe, not stored by BoBA Market</li>
+            <li>Your identity verification data is processed by Stripe, not stored by BoBA Trader</li>
             <li>Sales data and analytics are used to improve the Platform and may be displayed in aggregate</li>
             <li>We will not sell your personal information to third parties</li>
-            <li>You may request data export or deletion by contacting <strong>privacy@bobamarket.gg</strong></li>
+            <li>You may request data export or deletion by contacting <strong>privacy@bobatrader.com</strong></li>
           </ul>
         </section>
 
         {/* 16. INDEMNIFICATION & LIABILITY */}
         <section>
           <h2 className="text-2xl font-display font-bold text-white">16. Indemnification & Liability</h2>
-          <p>You agree to indemnify and hold harmless BoBA Market, its owners, employees, and agents from any claims, damages, or expenses arising from:</p>
+          <p>You agree to indemnify and hold harmless BoBA Trader, its owners, employees, and agents from any claims, damages, or expenses arising from:</p>
           <ul className="list-disc pl-6 space-y-1">
             <li>Your use of the Platform as a seller</li>
             <li>Disputes with buyers arising from your listings</li>
@@ -390,19 +390,19 @@ export default function SellerAgreementPage() {
             <li>Shipping issues caused by your packaging or carrier choice</li>
             <li>Any violation of this Agreement</li>
           </ul>
-          <p className="mt-2"><strong>Limitation of liability:</strong> BoBA Market&apos;s total liability to you shall not exceed the fees you paid to us in the 12 months preceding the claim, or $100, whichever is greater.</p>
+          <p className="mt-2"><strong>Limitation of liability:</strong> BoBA Trader&apos;s total liability to you shall not exceed the fees you paid to us in the 12 months preceding the claim, or $100, whichever is greater.</p>
         </section>
 
         {/* 17. DISPUTE RESOLUTION (PLATFORM VS SELLER) */}
         <section>
           <h2 className="text-2xl font-display font-bold text-white">17. Dispute Resolution</h2>
-          <p>If you have a dispute with BoBA Market (not a buyer-seller dispute):</p>
+          <p>If you have a dispute with BoBA Trader (not a buyer-seller dispute):</p>
           <ol className="list-decimal pl-6 space-y-1">
-            <li><strong>Informal resolution first</strong> — contact <strong>support@bobamarket.gg</strong>. We will attempt to resolve within 30 days.</li>
+            <li><strong>Informal resolution first</strong> — contact <strong>support@bobatrader.com</strong>. We will attempt to resolve within 30 days.</li>
             <li><strong>Disputes under $500:</strong> Resolved through small claims court in the state of our incorporation (New Jersey).</li>
             <li><strong>Disputes over $500:</strong> Resolved through binding arbitration under AAA Commercial Rules, conducted in New Jersey. Each party bears their own costs.</li>
           </ol>
-          <p className="mt-2">You agree to resolve disputes individually and waive the right to participate in class action lawsuits or class-wide arbitration against BoBA Market.</p>
+          <p className="mt-2">You agree to resolve disputes individually and waive the right to participate in class action lawsuits or class-wide arbitration against BoBA Trader.</p>
         </section>
 
         {/* 18. GOVERNING LAW */}
@@ -428,10 +428,10 @@ export default function SellerAgreementPage() {
         <section>
           <h2 className="text-2xl font-display font-bold text-white">20. Contact</h2>
           <div className="card border border-white/10 p-4 mt-3">
-            <p><strong>General support:</strong> support@bobamarket.gg</p>
-            <p><strong>Legal / DMCA:</strong> legal@bobamarket.gg</p>
-            <p><strong>Appeals:</strong> appeals@bobamarket.gg</p>
-            <p><strong>Privacy / Data:</strong> privacy@bobamarket.gg</p>
+            <p><strong>General support:</strong> support@bobatrader.com</p>
+            <p><strong>Legal / DMCA:</strong> legal@bobatrader.com</p>
+            <p><strong>Appeals:</strong> appeals@bobatrader.com</p>
+            <p><strong>Privacy / Data:</strong> privacy@bobatrader.com</p>
           </div>
         </section>
 

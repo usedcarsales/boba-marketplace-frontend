@@ -11,13 +11,13 @@ export default function TermsPage() {
       <div className="prose prose-invert max-w-none space-y-8 text-white/70 text-base leading-relaxed">
         <section>
           <h2 className="text-2xl font-display font-bold text-white">1. Acceptance of Terms</h2>
-          <p>By accessing or using BoBA Market (&quot;the Platform&quot;), operated by BoBA Market (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;), you agree to be bound by these Terms of Service (&quot;Terms&quot;). If you do not agree to these Terms, do not use the Platform.</p>
+          <p>By accessing or using BoBA Trader (&quot;the Platform&quot;), operated by BoBA Trader (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;), you agree to be bound by these Terms of Service (&quot;Terms&quot;). If you do not agree to these Terms, do not use the Platform.</p>
           <p>We reserve the right to modify these Terms at any time. Continued use of the Platform after changes constitutes acceptance of the modified Terms.</p>
         </section>
 
         <section>
           <h2 className="text-2xl font-display font-bold text-white">2. Description of Service</h2>
-          <p>BoBA Market is an online marketplace for buying and selling Bo Jackson Battle Arena (BoBA) trading cards. We provide a platform that connects buyers and sellers — we do not own, possess, or inspect the cards listed on our Platform.</p>
+          <p>BoBA Trader is an online marketplace for buying and selling Bo Jackson Battle Arena (BoBA) trading cards. We provide a platform that connects buyers and sellers — we do not own, possess, or inspect the cards listed on our Platform.</p>
           <p>We are a marketplace facilitator, not a party to transactions between buyers and sellers.</p>
         </section>
 
@@ -34,10 +34,10 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-display font-bold text-white">4. Buying on BoBA Market</h2>
+          <h2 className="text-2xl font-display font-bold text-white">4. Buying on BoBA Trader</h2>
           <p>When you purchase a card through our Platform:</p>
           <ul className="list-disc pl-6 space-y-1">
-            <li>You are entering into a transaction with the seller, not with BoBA Market</li>
+            <li>You are entering into a transaction with the seller, not with BoBA Trader</li>
             <li>Payment is processed through Stripe, our third-party payment processor</li>
             <li>Your payment is held until delivery is confirmed or the delivery window closes</li>
             <li>You have 7 days after delivery to report any issues with your order</li>
@@ -46,7 +46,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-display font-bold text-white">5. Selling on BoBA Market</h2>
+          <h2 className="text-2xl font-display font-bold text-white">5. Selling on BoBA Trader</h2>
           <p>Sellers must agree to our <Link href="/seller-agreement" className="text-hex hover:text-hex-light">Seller Agreement</Link> and complete Stripe Connect onboarding. By listing cards, you agree to:</p>
           <ul className="list-disc pl-6 space-y-1">
             <li>Only list cards you physically possess and own</li>
@@ -99,7 +99,7 @@ export default function TermsPage() {
 
         <section>
           <h2 className="text-2xl font-display font-bold text-white">9. Intellectual Property</h2>
-          <p>Bo Jackson Battle Arena, BoBA, and related card images and names are trademarks of their respective owners. BoBA Market is an independent third-party marketplace and is not affiliated with, endorsed by, or sponsored by the creators of Bo Jackson Battle Arena.</p>
+          <p>Bo Jackson Battle Arena, BoBA, and related card images and names are trademarks of their respective owners. BoBA Trader is an independent third-party marketplace and is not affiliated with, endorsed by, or sponsored by the creators of Bo Jackson Battle Arena.</p>
           <p>Card images displayed on our Platform are sourced from publicly available databases for reference purposes.</p>
         </section>
 
@@ -133,7 +133,7 @@ export default function TermsPage() {
 
         <section>
           <h2 className="text-2xl font-display font-bold text-white">13. Contact</h2>
-          <p>Questions about these Terms? Contact us at <span className="text-hex">support@bobamarket.gg</span></p>
+          <p>Questions about these Terms? Contact us at <span className="text-hex">support@bobatrader.com</span></p>
         </section>
       </div>
 

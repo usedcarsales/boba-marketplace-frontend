@@ -429,7 +429,7 @@ export default function SellPage() {
             <div className="text-center py-6">
               <span className="text-5xl block mb-3">🎉</span>
               <h3 className="text-2xl font-display font-bold text-white mb-2">Listing Published!</h3>
-              <p className="text-white/40 mb-6">Your card is now live on BoBA Market.</p>
+              <p className="text-white/40 mb-6">Your card is now live on BoBA Trader.</p>
               <div className="flex gap-4 justify-center">
                 <Link href="/dashboard/sell" className="btn-primary">View My Listings</Link>
                 <button onClick={() => { setStep(1); setSelectedCard(null); setPrice(""); setPublished(false); }} className="btn-secondary">

@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About — BoBA Market",
+  title: "About — BoBA Trader",
   description:
     "The #1 independent marketplace for Bo Jackson Battle Arena trading cards. Built by collectors, for collectors.",
 };
@@ -129,7 +129,7 @@ export default function AboutPage() {
         <span className="text-4xl block mb-4">🃏</span>
         <h2 className="text-4xl font-display font-black text-white mb-4">OUR MISSION</h2>
         <p className="text-lg text-white/60 font-body max-w-3xl mx-auto leading-relaxed">
-          BoBA Market exists because Bo Jackson Battle Arena deserves a dedicated home.
+          BoBA Trader exists because Bo Jackson Battle Arena deserves a dedicated home.
           Not a footnote on eBay. Not a category buried in TCGPlayer.
           A purpose-built marketplace with real market data, fair fees, and policies
           that actually make sense for collectors and sellers.
@@ -195,7 +195,7 @@ export default function AboutPage() {
       {/* Our Commitment */}
       <div className="mb-16">
         <h2 className="text-4xl font-display font-black text-white mb-2">OUR COMMITMENT</h2>
-        <p className="text-white/40 mb-8 font-body">What makes BoBA Market different.</p>
+        <p className="text-white/40 mb-8 font-body">What makes BoBA Trader different.</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {commitments.map((item) => (
             <div
@@ -217,7 +217,7 @@ export default function AboutPage() {
           BUILT BY COLLECTORS, FOR COLLECTORS
         </h2>
         <p className="text-white/50 font-body max-w-2xl mx-auto leading-relaxed">
-          BoBA Market was built by people who actually play the game and buy the cards.
+          BoBA Trader was built by people who actually play the game and buy the cards.
           We know what it feels like to get a card in worse condition than listed.
           We know what it feels like to wait three weeks for a sale to clear.
           We built the platform we wanted — and we&apos;re sharing it with the community.

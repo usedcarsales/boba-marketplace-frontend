@@ -71,7 +71,7 @@ function AuthContent() {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-5xl font-display font-black text-white mb-2">
-            {mode === "signin" ? "Welcome Back" : "Join BoBA Market"}
+            {mode === "signin" ? "Welcome Back" : "Join BoBA Trader"}
           </h1>
           <p className="text-lg text-white/40 font-body">
             {mode === "signin" ? "Sign in to manage your cards" : "Create an account to start buying & selling"}

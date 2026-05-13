@@ -125,7 +125,7 @@ export default function HomePage() {
                   <span className="text-white font-display font-black text-3xl leading-none">B</span>
                 </div>
                 <div>
-                  <h2 className="text-base font-display text-white/50 uppercase tracking-[0.3em]">The Marketplace For</h2>
+                  <h2 className="text-base font-display text-white/50 uppercase tracking-[0.3em]">The Trading Platform For</h2>
                   <h1 className="text-3xl font-display font-black text-white uppercase tracking-wider">
                     Bo Jackson Battle Arena™ <span className="text-gradient-hex-glow">Cards</span>
                   </h1>

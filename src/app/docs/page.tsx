@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Docs — BoBA Market",
-  description: "Transparency documentation for BoBA Market. Fees, protections, policies.",
+  title: "Docs — BoBA Trader",
+  description: "Transparency documentation for BoBA Trader. Fees, protections, policies.",
 };
 
 export default function DocsPage() {

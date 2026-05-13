@@ -34,7 +34,7 @@ export default function WalletAuthPage() {
       const message = new SiweMessage({
         domain: window.location.host,
         address,
-        statement: "Sign in to BoBA Market — the Bo Jackson Battle Arena™ card marketplace.",
+        statement: "Sign in to BoBA Trader — the Bo Jackson Battle Arena™ card marketplace.",
         uri: window.location.origin,
         version: "1",
         chainId: 1,
@@ -92,7 +92,7 @@ export default function WalletAuthPage() {
 
         <h1 className="text-2xl font-bold text-white mb-2">Sign in with Ethereum</h1>
         <p className="text-gray-400 text-sm mb-8">
-          Connect your wallet and sign a message to authenticate with BoBA Market.
+          Connect your wallet and sign a message to authenticate with BoBA Trader.
           No password required — your keys, your account.
         </p>
 

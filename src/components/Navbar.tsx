@@ -116,12 +116,12 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5">
-            {/* BoBA Market own brand logo — SVG wordmark */}
+            {/* BoBA Trader own brand logo — SVG wordmark */}
             <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-hex via-boba-red to-super flex items-center justify-center shadow-lg shadow-hex/20">
               <span className="text-white font-display font-black text-lg leading-none">B</span>
             </div>
             <span className="text-2xl font-display font-black text-white uppercase tracking-wider">
-              BoBA <span className="text-super">Market</span>
+              BoBA <span className="text-super">Trader</span>
             </span>
           </Link>
 

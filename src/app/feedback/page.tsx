@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Feedback — BoBA Market",
-  description: "Help build BoBA Market. Submit feedback, feature requests, and bug reports.",
+  title: "Feedback — BoBA Trader",
+  description: "Help build BoBA Trader. Submit feedback, feature requests, and bug reports.",
 };
 
 export default function FeedbackPage() {

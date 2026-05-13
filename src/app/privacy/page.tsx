@@ -67,7 +67,7 @@ export default function PrivacyPage() {
             <li>Opt out of marketing communications</li>
             <li>Request a copy of your data</li>
           </ul>
-          <p>To exercise these rights, contact us at <span className="text-hex">privacy@bobamarket.gg</span></p>
+          <p>To exercise these rights, contact us at <span className="text-hex">privacy@bobatrader.com</span></p>
         </section>
 
         <section>
@@ -87,7 +87,7 @@ export default function PrivacyPage() {
 
         <section>
           <h2 className="text-2xl font-display font-bold text-white">9. Contact</h2>
-          <p>Questions about this Privacy Policy? Contact us at <span className="text-hex">privacy@bobamarket.gg</span></p>
+          <p>Questions about this Privacy Policy? Contact us at <span className="text-hex">privacy@bobatrader.com</span></p>
         </section>
       </div>
 

@@ -8,7 +8,7 @@ import { RainbowKitProvider, getDefaultConfig, darkTheme } from "@rainbow-me/rai
 import "@rainbow-me/rainbowkit/styles.css";
 
 const config = getDefaultConfig({
-  appName: "BoBA Market",
+  appName: "BoBA Trader",
   projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || "boba-marketplace",
   chains: [mainnet, base],
   transports: {
