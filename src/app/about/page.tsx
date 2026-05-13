@@ -103,7 +103,7 @@ export default function AboutPage() {
           </span>
         </div>
         <h1 className="text-6xl sm:text-7xl font-display font-black text-white mb-4 leading-none">
-          ABOUT BOBA MARKET
+          ABOUT BOBA TRADER
         </h1>
         <p className="text-xl text-white/50 font-body max-w-2xl mx-auto leading-relaxed">
           The <span className="text-white font-semibold">#1 independent marketplace</span> for Bo Jackson Battle Arena trading cards.
