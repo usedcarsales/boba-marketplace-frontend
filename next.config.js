@@ -8,6 +8,14 @@ const nextConfig = {
       { protocol: "https", hostname: "storage.googleapis.com" },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "https://boba-api.onrender.com/api/:path*",
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
