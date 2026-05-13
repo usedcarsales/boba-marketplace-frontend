@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { API_BASE, apiFetch } from "@/lib/api-client";
@@ -23,6 +23,35 @@ interface CardOption {
   set_name: string;
 }
 
+/** Extract likely card name from an eBay listing title like "2024 Bo Jackson Battle Arena #123 Card Name PSA 9" */
+function extractSearchTerm(title: string): string {
+  // Remove common eBay noise words
+  let cleaned = title
+    .replace(/\b(PSA|BGS|SGC|CGC)\s*\d+\.?\d*\b/gi, "") // grading
+    .replace(/\b(NM|MINT|NRMT|LP|MP|HP|DMG)\b/gi, "") // conditions
+    .replace(/\b(rare|holo|1st\s*edition|unlimited|reverse\s*holo|foil|parallel)\b/gi, "") // buzzwords
+    .replace(/\b(LOT|lot|SET|set|COLLECTION|collection)\b/gi, "") // bulk
+    .replace(/\d{4}\b/g, "") // year
+    .replace(/#/g, " ") // card number symbol
+    .replace(/[^a-zA-Z0-9\s]/g, " ") // punctuation
+    .replace(/\s+/g, " ")
+    .trim();
+  // Take first 3-4 meaningful words (likely the card name)
+  const words = cleaned.split(" ").filter(w => w.length > 1);
+  return words.slice(0, Math.min(4, words.length)).join(" ");
+}
+
+/** Extract the most likely card name for pre-filtering — tries to find the actual character/card name */
+function extractCardName(title: string): string {
+  // Try to extract the card name after the number, e.g. "#123 Card Name"
+  const afterNumber = title.match(/#\d+\s+(.+?)(?:\s+-\s+|\s+PSA|\s+BGS|\s+SGC|\s+NM|\s+MINT|$)/i);
+  if (afterNumber && afterNumber[1].trim().length >= 2) {
+    return afterNumber[1].trim();
+  }
+  // Fallback to extractSearchTerm
+  return extractSearchTerm(title);
+}
+
 const CONDITION_OPTIONS = [
   "Mint", "Near Mint", "Lightly Played", "Moderately Played", "Heavily Played", "Damaged"
 ];
@@ -40,7 +69,6 @@ export default function ImportEbayPage() {
   const [ebayUsername, setEbayUsername] = useState("");
   const [importing, setImporting] = useState(false);
   const [drafts, setDrafts] = useState<Draft[]>([]);
-  const [cards, setCards] = useState<CardOption[]>([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -53,7 +81,6 @@ export default function ImportEbayPage() {
     }
     setToken(t);
     loadDrafts(t);
-    loadCards(t);
   }, [router]);
 
   const loadDrafts = async (t: string) => {
@@ -70,17 +97,8 @@ export default function ImportEbayPage() {
     }
   };
 
-  const loadCards = async (t: string) => {
-    try {
-      const res = await apiFetch(`${API_BASE}/api/cards?limit=1000`);
-      if (res.ok) {
-        const data = await res.json();
-        setCards(data?.items || []);
-      }
-    } catch {
-      // silent — cards just won't show in dropdown
-    }
-  };
+  // Cards are now loaded per-draft via autocomplete — no global load needed
+  const loadCards = async (_t: string) => {};
 
   const handleImport = async () => {
     if (!ebayUsername.trim()) return;
@@ -116,7 +134,7 @@ export default function ImportEbayPage() {
     }
   };
 
-  const updateDraft = async (draftId: string, updates: Partial<Draft> & { publish?: boolean }) => {
+  const updateDraft = async (draftId: string, updates: { card_id?: string | null; condition?: string; price_cents?: number; publish?: boolean }) => {
     setMessage("");
     setError("");
 
@@ -124,7 +142,7 @@ export default function ImportEbayPage() {
       const res = await apiFetch(`${API_BASE}/api/import/ebay/${draftId}`, {
         method: "PATCH",
         body: JSON.stringify({
-          card_id: updates.card?.id || null,
+          card_id: updates.card_id || null,
           condition: updates.condition,
           price_cents: updates.price_cents,
           publish: updates.publish || false,
@@ -255,7 +273,6 @@ export default function ImportEbayPage() {
             <DraftRow
               key={draft.id}
               draft={draft}
-              cards={cards}
               onUpdate={(updates) => updateDraft(draft.id, updates)}
               onRemove={() => removeDraft(draft.id)}
             />
@@ -270,27 +287,79 @@ export default function ImportEbayPage() {
 
 function DraftRow({
   draft,
-  cards,
   onUpdate,
   onRemove,
 }: {
   draft: Draft;
-  cards: CardOption[];
-  onUpdate: (updates: Partial<Draft> & { publish?: boolean }) => void;
+  onUpdate: (updates: { card_id?: string | null; condition?: string; price_cents?: number; publish?: boolean }) => void;
   onRemove: () => void;
 }) {
   const [selectedCardId, setSelectedCardId] = useState(draft.card?.id || "");
+  const [selectedCardName, setSelectedCardName] = useState(draft.card?.name || "");
   const [condition, setCondition] = useState(draft.condition);
   const [price, setPrice] = useState((draft.price_cents / 100).toFixed(2));
   const [saving, setSaving] = useState(false);
 
-  const matchedCard = cards.find((c) => c.id === selectedCardId);
+  // Autocomplete state
+  const [cardSearch, setCardSearch] = useState("");
+  const [cardResults, setCardResults] = useState<CardOption[]>([]);
+  const [searchingCards, setSearchingCards] = useState(false);
+  const [showCardDropdown, setShowCardDropdown] = useState(false);
+  const [initialSearchDone, setInitialSearchDone] = useState(false);
+
+  // Pre-search using the card name extracted from the draft title
+  useEffect(() => {
+    if (!initialSearchDone && !draft.card?.id) {
+      const term = extractCardName(draft.title);
+      if (term.length >= 2) {
+        searchCards(term);
+        setCardSearch(term); // Show the search term in the input
+      }
+      setInitialSearchDone(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialSearchDone]);
+
+  const searchCards = async (query: string) => {
+    if (query.length < 2) {
+      setCardResults([]);
+      return;
+    }
+    setSearchingCards(true);
+    try {
+      const res = await apiFetch(`${API_BASE}/api/cards/autocomplete?q=${encodeURIComponent(query)}&limit=30`);
+      if (res.ok) {
+        const data = await res.json();
+        setCardResults(data || []);
+        setShowCardDropdown(true);
+      }
+    } catch {
+      // silent
+    } finally {
+      setSearchingCards(false);
+    }
+  };
+
+  // Debounced search
+  const searchTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const handleCardSearch = (value: string) => {
+    setCardSearch(value);
+    setSelectedCardId("");
+    if (searchTimeout.current) clearTimeout(searchTimeout.current);
+    searchTimeout.current = setTimeout(() => searchCards(value), 300);
+  };
+
+  const selectCard = (card: CardOption) => {
+    setSelectedCardId(card.id);
+    setSelectedCardName(card.name);
+    setCardSearch("");
+    setShowCardDropdown(false);
+  };
 
   const handleSave = (publish = false) => {
     setSaving(true);
-    const card = matchedCard ? { id: matchedCard.id, name: matchedCard.name } : null;
     onUpdate({
-      card: card as any,
+      card_id: selectedCardId || null,
       condition,
       price_cents: Math.round(parseFloat(price || "0") * 100),
       publish,
@@ -336,21 +405,54 @@ function DraftRow({
           </a>
         )}
 
-        {/* Match card */}
-        <div className="mb-3">
+        {/* Match card — autocomplete search */}
+        <div className="mb-3 relative">
           <label className="block text-xs text-white/40 uppercase tracking-wider mb-1">Match Card</label>
-          <select
-            value={selectedCardId}
-            onChange={(e) => setSelectedCardId(e.target.value)}
-            className="w-full bg-boba-panel border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-hex"
-          >
-            <option value="">— Select a BoBA card —</option>
-            {cards.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name} ({c.card_number}) — {c.set_name}
-              </option>
-            ))}
-          </select>
+          {selectedCardId ? (
+            <div className="flex items-center gap-2 bg-boba-panel border border-hex/40 rounded-lg px-3 py-2">
+              <span className="text-sm text-white flex-1">
+                ✅ {selectedCardName || "Card selected"}
+              </span>
+              <button
+                onClick={() => { setSelectedCardId(""); setSelectedCardName(""); setInitialSearchDone(false); }}
+                className="text-xs text-fire/60 hover:text-fire"
+              >
+                ✕ Change
+              </button>
+            </div>
+          ) : (
+            <>
+              <input
+                type="text"
+                value={cardSearch}
+                onChange={(e) => handleCardSearch(e.target.value)}
+                onFocus={() => cardResults.length > 0 && setShowCardDropdown(true)}
+                onBlur={() => setTimeout(() => setShowCardDropdown(false), 200)}
+                placeholder={initialSearchDone && cardResults.length === 0 ? "No matches — try different keywords" : "Search cards by name..."}
+                className="w-full bg-boba-panel border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder-white/20 focus:outline-none focus:border-hex"
+              />
+              {searchingCards && (
+                <div className="absolute right-3 top-8">
+                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin inline-block" />
+                </div>
+              )}
+              {showCardDropdown && cardResults.length > 0 && (
+                <div className="absolute z-50 w-full mt-1 bg-boba-panel border border-white/20 rounded-lg shadow-xl max-h-60 overflow-y-auto">
+                  {cardResults.map((c) => (
+                    <button
+                      key={c.id}
+                      onClick={() => selectCard(c)}
+                      className="w-full text-left px-3 py-2 hover:bg-white/10 transition-colors border-b border-white/5 last:border-0"
+                    >
+                      <span className="text-sm text-white">{c.name}</span>
+                      <span className="text-xs text-white/40 ml-2">#{c.number}</span>
+                      <span className="text-xs text-white/30 ml-2">— {c.set}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
         </div>
 
         {/* Condition + Price */}

@@ -46,6 +46,11 @@ export default function DashboardPage() {
           <h3 className="text-xl font-display font-bold text-white group-hover:text-hex transition-colors">My Purchases</h3>
           <p className="text-sm text-white/30 mt-1">Track your buying activity</p>
         </Link>
+        <Link href="/dashboard/profile" className="card border border-super/30 p-6 group hover:border-super/60 transition-all">
+          <span className="text-3xl block mb-3">👤</span>
+          <h3 className="text-xl font-display font-bold text-white group-hover:text-super transition-colors">Profile</h3>
+          <p className="text-sm text-white/30 mt-1">Edit username, bio & display name</p>
+        </Link>
       </div>
 
       {/* Recent Activity */}

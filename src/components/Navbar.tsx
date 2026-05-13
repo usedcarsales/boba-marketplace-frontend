@@ -231,6 +231,9 @@ export function Navbar() {
                     <Link href="/dashboard/orders" onClick={() => setUserMenuOpen(false)} className="block px-4 py-3 text-sm text-white/70 hover:bg-white/5 hover:text-white font-display uppercase tracking-wider">
                       📦 Sales / Orders
                     </Link>
+                    <Link href="/dashboard/profile" onClick={() => setUserMenuOpen(false)} className="block px-4 py-3 text-sm text-white/70 hover:bg-white/5 hover:text-white font-display uppercase tracking-wider">
+                      👤 Profile
+                    </Link>
                     <div className="border-t border-white/10" />
                     <button onClick={handleLogout} className="block w-full text-left px-4 py-3 text-sm text-red-400 hover:bg-red-500/10 font-display uppercase tracking-wider">
                       🚪 Sign Out
