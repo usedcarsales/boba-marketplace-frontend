@@ -306,6 +306,9 @@ function DraftRow({
   const [searchingCards, setSearchingCards] = useState(false);
   const [showCardDropdown, setShowCardDropdown] = useState(false);
   const [initialSearchDone, setInitialSearchDone] = useState(false);
+  const [dropdownWidth, setDropdownWidth] = useState("");
+  const [dropdownPos, setDropdownPos] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // Pre-search using the card name extracted from the draft title
   useEffect(() => {
@@ -331,6 +334,7 @@ function DraftRow({
       if (res.ok) {
         const data = await res.json();
         setCardResults(data || []);
+        updateDropdownPos();
         setShowCardDropdown(true);
       }
     } catch {
@@ -354,6 +358,17 @@ function DraftRow({
     setSelectedCardName(card.name);
     setCardSearch("");
     setShowCardDropdown(false);
+  };
+
+  const updateDropdownPos = () => {
+    if (inputRef.current) {
+      const rect = inputRef.current.getBoundingClientRect();
+      setDropdownWidth(`${rect.width}px`);
+      setDropdownPos({
+        top: rect.bottom + 4,
+        left: rect.left,
+      });
+    }
   };
 
   const handleSave = (publish = false) => {
@@ -406,7 +421,7 @@ function DraftRow({
         )}
 
         {/* Match card — autocomplete search */}
-        <div className="mb-3 relative">
+        <div className="mb-3 relative" style={{ overflow: "visible" }}>
           <label className="block text-xs text-white/40 uppercase tracking-wider mb-1">Match Card</label>
           {selectedCardId ? (
             <div className="flex items-center gap-2 bg-boba-panel border border-hex/40 rounded-lg px-3 py-2">
@@ -423,10 +438,16 @@ function DraftRow({
           ) : (
             <>
               <input
+                ref={inputRef}
                 type="text"
                 value={cardSearch}
                 onChange={(e) => handleCardSearch(e.target.value)}
-                onFocus={() => cardResults.length > 0 && setShowCardDropdown(true)}
+                onFocus={() => {
+                  if (cardResults.length > 0) {
+                    updateDropdownPos();
+                    setShowCardDropdown(true);
+                  }
+                }}
                 onBlur={() => setTimeout(() => setShowCardDropdown(false), 200)}
                 placeholder={initialSearchDone && cardResults.length === 0 ? "No matches — try different keywords" : "Search cards by name..."}
                 className="w-full bg-boba-panel border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder-white/20 focus:outline-none focus:border-hex"
@@ -437,12 +458,19 @@ function DraftRow({
                 </div>
               )}
               {showCardDropdown && cardResults.length > 0 && (
-                <div className="absolute z-50 w-full mt-1 bg-boba-panel border border-white/20 rounded-lg shadow-xl max-h-60 overflow-y-auto">
+                <div
+                  className="fixed z-[9999] bg-boba-panel border border-white/20 rounded-lg shadow-2xl max-h-72 overflow-y-auto"
+                  style={{
+                    width: dropdownWidth,
+                    top: dropdownPos.top,
+                    left: dropdownPos.left,
+                  }}
+                >
                   {cardResults.map((c) => (
                     <button
                       key={c.id}
                       onClick={() => selectCard(c)}
-                      className="w-full text-left px-3 py-2 hover:bg-white/10 transition-colors border-b border-white/5 last:border-0"
+                      className="w-full text-left px-3 py-2.5 hover:bg-white/10 transition-colors border-b border-white/5 last:border-0"
                     >
                       <span className="text-sm text-white">{c.name}</span>
                       <span className="text-xs text-white/40 ml-2">#{c.number}</span>

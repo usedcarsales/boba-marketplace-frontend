@@ -1,8 +1,48 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { API_BASE, apiFetch } from "@/lib/api-client";
+
+interface DashboardStats {
+  active_listings: number;
+  total_sales: number;
+  total_revenue_cents: number;
+  pending_shipments: number;
+  pending_delivery_confirmations: number;
+  stripe_onboarded: boolean;
+  role: string;
+}
 
 export default function DashboardPage() {
+  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const t = localStorage.getItem("boba-token");
+    if (!t) return;
+    loadStats(t);
+  }, []);
+
+  const loadStats = async (token: string) => {
+    try {
+      const res = await apiFetch(`${API_BASE}/api/seller/dashboard`);
+      if (res.ok) {
+        const data = await res.json();
+        setStats(data);
+      }
+    } catch {
+      // Not a seller yet, stats will show defaults
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const activeListings = stats?.active_listings ?? 0;
+  const totalSales = stats?.total_sales ?? 0;
+  const revenue = stats?.total_revenue_cents ? `$${(stats.total_revenue_cents / 100).toFixed(2)}` : "$0.00";
+  const pendingOrders = (stats?.pending_shipments ?? 0) + (stats?.pending_delivery_confirmations ?? 0);
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <h1 className="text-5xl font-display font-black text-white mb-2">Dashboard</h1>
@@ -11,14 +51,20 @@ export default function DashboardPage() {
       {/* Stats Overview */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
         {[
-          { label: "Active Listings", value: "0", icon: "📦", color: "border-hex/40" },
-          { label: "Total Sales", value: "$0.00", icon: "💰", color: "border-super/40" },
-          { label: "Pending Orders", value: "0", icon: "🔄", color: "border-brawl/40" },
+          { label: "Active Listings", value: String(activeListings), icon: "📦", color: "border-hex/40" },
+          { label: "Total Sales", value: revenue, icon: "💰", color: "border-super/40" },
+          { label: "Pending Orders", value: String(pendingOrders), icon: "🔄", color: "border-brawl/40" },
           { label: "Seller Rating", value: "—", icon: "⭐", color: "border-glow/40" },
         ].map((stat) => (
           <div key={stat.label} className={`card border ${stat.color} p-6`}>
             <span className="text-3xl block mb-2">{stat.icon}</span>
-            <p className="text-3xl font-display font-black text-white">{stat.value}</p>
+            <p className="text-3xl font-display font-black text-white">
+              {loading ? (
+                <span className="inline-block w-8 h-8 border-2 border-white/20 border-t-white/60 rounded-full animate-spin" />
+              ) : (
+                stat.value
+              )}
+            </p>
             <p className="text-sm text-white/40 font-display uppercase tracking-wider mt-1">{stat.label}</p>
           </div>
         ))}
