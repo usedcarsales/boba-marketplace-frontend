@@ -38,6 +38,7 @@ interface PurchaseItem {
 
 const STATUS_COLORS: Record<string, string> = {
   pending: "bg-white/10 text-white/50",
+  authorized: "bg-hex/20 text-hex",
   paid: "bg-super/20 text-super",
   shipped: "bg-ice/20 text-ice",
   delivered: "bg-glow/20 text-glow",

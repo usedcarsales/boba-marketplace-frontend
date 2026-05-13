@@ -51,6 +51,7 @@ interface OrderItem {
 
 const STATUS_COLORS: Record<string, string> = {
   pending: "bg-white/10 text-white/50",
+  authorized: "bg-hex/20 text-hex",
   paid: "bg-super/20 text-super",
   shipped: "bg-ice/20 text-ice",
   delivered: "bg-glow/20 text-glow",
@@ -126,7 +127,7 @@ export default function SellerOrdersPage() {
     setShipping(false);
   };
 
-  const pendingCount = orders.filter((o) => o.status === "paid").length;
+  const pendingCount = orders.filter((o) => o.status === "paid" || o.status === "authorized").length;
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-12">
@@ -146,7 +147,7 @@ export default function SellerOrdersPage() {
 
       {/* Filters */}
       <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
-        {["all", "paid", "shipped", "delivered", "completed", "disputed"].map((s) => (
+        {["all", "authorized", "paid", "shipped", "delivered", "completed", "disputed"].map((s) => (
           <button
             key={s}
             onClick={() => setFilter(s)}
@@ -175,7 +176,7 @@ export default function SellerOrdersPage() {
           {orders.map((order) => {
             const isExpanded = expandedOrder === order.id;
             const shipDeadline = order.ship_by ? new Date(order.ship_by) : null;
-            const isOverdue = shipDeadline && new Date() > shipDeadline && order.status === "paid";
+            const isOverdue = shipDeadline && new Date() > shipDeadline && (order.status === "paid" || order.status === "authorized");
 
             return (
               <div
@@ -284,7 +285,7 @@ export default function SellerOrdersPage() {
                     </div>
 
                     {/* Ship button — only for paid orders */}
-                    {order.status === "paid" && !shipForm && (
+                    {order.status === "paid" || order.status === "authorized" ? !shipForm && (
                       <button
                         onClick={() => setShipForm({ orderId: order.id, tracking: "", carrier: "usps", note: "" })}
                         className="btn-primary w-full"
@@ -333,7 +334,7 @@ export default function SellerOrdersPage() {
                     )}
 
                     {/* Print packing slip link */}
-                    {order.status === "paid" && (
+                    {(order.status === "paid" || order.status === "authorized") && (
                       <button
                         onClick={() => window.print()}
                         className="text-sm text-hex hover:text-hex-light font-display uppercase tracking-wider"
