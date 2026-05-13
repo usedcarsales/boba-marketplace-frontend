@@ -284,8 +284,8 @@ export default function SellerOrdersPage() {
                       )}
                     </div>
 
-                    {/* Ship button — only for paid orders */}
-                    {order.status === "paid" || order.status === "authorized" ? !shipForm && (
+                    {/* Ship button — for authorized or paid orders */}
+                    {(order.status === "paid" || order.status === "authorized") && !shipForm && (
                       <button
                         onClick={() => setShipForm({ orderId: order.id, tracking: "", carrier: "usps", note: "" })}
                         className="btn-primary w-full"
