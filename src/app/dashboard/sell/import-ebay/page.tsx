@@ -19,8 +19,8 @@ interface Draft {
 interface CardOption {
   id: string;
   name: string;
-  card_number: string;
-  set_name: string;
+  number: string;
+  set: string;
 }
 
 /** Extract likely card name from an eBay listing title like "2024 Bo Jackson Battle Arena #123 Card Name PSA 9" */
