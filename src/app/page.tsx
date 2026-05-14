@@ -162,7 +162,7 @@ export default function HomePage() {
               <div className="mt-4">
                 <Link
                   href="/dashboard/sell/import-ebay"
-                  className="inline-flex items-center gap-2 text-sm text-hex/70 hover:text-hex transition-colors font-display"
+                  className="inline-flex items-center gap-2 text-base text-hex/70 hover:text-hex transition-colors font-display"
                 >
                   📥 Already selling on eBay? <span className="underline">Import your listings in seconds →</span>
                 </Link>
