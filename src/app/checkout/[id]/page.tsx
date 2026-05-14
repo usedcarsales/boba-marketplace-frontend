@@ -109,7 +109,19 @@ export default function CheckoutPage() {
 
       if (!res.ok) {
         const err = await res.json().catch(() => ({ detail: "Failed to create order" }));
-        throw new Error(err.detail || `Order creation failed (${res.status})`);
+        // Make seller onboarding errors user-friendly
+        const detail = err.detail || "";
+        if (detail.includes("Cannot buy your own")) {
+          throw new Error("You can't buy your own listing!");
+        } else if (detail.includes("not available") || detail.includes("not found")) {
+          throw new Error("This listing is no longer available. It may have been sold or removed.");
+        } else if (detail.includes("Insufficient quantity")) {
+          throw new Error("Not enough copies available. Try a lower quantity.");
+        } else if (detail) {
+          throw new Error(detail);
+        } else {
+          throw new Error(`Order creation failed (${res.status})`);
+        }
       }
 
       const order: OrderData = await res.json();
@@ -123,7 +135,19 @@ export default function CheckoutPage() {
 
       if (!checkoutRes.ok) {
         const err = await checkoutRes.json().catch(() => ({ detail: "Payment setup failed" }));
-        throw new Error(err.detail || `Payment setup failed (${checkoutRes.status})`);
+        // Make payment errors user-friendly
+        const detail = err.detail || "";
+        if (detail.includes("Stripe onboarding") || detail.includes("has not completed") || detail.includes("stripe_account")) {
+          throw new Error("The seller hasn't completed their payment setup yet. We've notified them — please try again later.");
+        } else if (detail.includes("Stripe not configured")) {
+          throw new Error("Payments are temporarily unavailable. Please try again later.");
+        } else if (detail.includes("pending")) {
+          throw new Error("Your order is still being processed. Please wait a moment and try again.");
+        } else if (detail) {
+          throw new Error(detail);
+        } else {
+          throw new Error(`Payment setup failed (${checkoutRes.status})`);
+        }
       }
 
       const checkout: StripeCheckoutData = await checkoutRes.json();

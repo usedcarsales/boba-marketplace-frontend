@@ -27,7 +27,16 @@ export default function SellerOnboardPage() {
       return;
     }
 
-    fetch(`${API_BASE}/api/seller/onboard/status`, {
+    // If returning from Stripe with ?complete=1, force a refresh from Stripe
+    const params = new URLSearchParams(window.location.search);
+    const isReturningFromStripe = params.get("complete") === "1";
+    const isRetry = params.get("retry") === "1";
+    const endpoint = (isReturningFromStripe || isRetry)
+      ? `${API_BASE}/api/seller/onboard/refresh`  // Force Stripe check
+      : `${API_BASE}/api/seller/onboard/status`;
+
+    fetch(endpoint, {
+      method: isReturningFromStripe || isRetry ? "POST" : "GET",
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((r) => {
@@ -44,6 +53,12 @@ export default function SellerOnboardPage() {
             setStep(4); // Already onboarded
           } else if (data.stripe_account_id) {
             setStep(3); // Started but not finished
+          } else {
+            setStep(1); // Haven't started yet
+          }
+          // Clean up URL params after processing
+          if (isReturningFromStripe || isRetry) {
+            window.history.replaceState({}, '', '/dashboard/sell/onboard');
           }
         }
       })
