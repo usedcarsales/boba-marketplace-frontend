@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 import { API_BASE } from "@/lib/api";
 
@@ -23,6 +24,22 @@ const TIER_EMOJIS: Record<string, string> = {
   hex: "🔮",
   super: "⚡",
 };
+
+interface Listing {
+  id: string;
+  title: string;
+  price_cents: number;
+  card_image_url?: string;
+  card_name?: string;
+  card_set?: string;
+  card_rarity?: string;
+  card_weapon?: string;
+  condition?: string;
+  quantity_available: number;
+  seller_id: string;
+  seller_username?: string;
+  seller_tier?: string;
+}
 
 interface SellerProfile {
   user_id: string;
@@ -107,6 +124,7 @@ export default function SellerProfilePage() {
   const params = useParams();
   const userId = params.id as string;
   const [profile, setProfile] = useState<SellerProfile | null>(null);
+  const [listings, setListings] = useState<Listing[]>([]);
   const [ratings, setRatings] = useState<RatingSummary | null>(null);
   const [feedback, setFeedback] = useState<FeedbackItem[]>([]);
   const [activeTab, setActiveTab] = useState<"listings" | "feedback" | "about">("listings");
@@ -116,15 +134,20 @@ export default function SellerProfilePage() {
   useEffect(() => {
     async function load() {
       try {
-        const [profileRes, ratingsRes, feedbackRes] = await Promise.all([
+        const [profileRes, ratingsRes, feedbackRes, listingsRes] = await Promise.all([
           fetch(`${API_BASE}/api/seller/profile/${userId}`),
           fetch(`${API_BASE}/api/feedback/seller/${userId}/summary`),
           fetch(`${API_BASE}/api/feedback/seller/${userId}?limit=20`),
+          fetch(`${API_BASE}/api/listings?seller_id=${userId}&status=active&limit=50`),
         ]);
 
         if (profileRes.ok) setProfile(await profileRes.json());
         if (ratingsRes.ok) setRatings(await ratingsRes.json());
         if (feedbackRes.ok) setFeedback(await feedbackRes.json());
+        if (listingsRes.ok) {
+          const data = await listingsRes.json();
+          setListings(Array.isArray(data) ? data : data.items || data.listings || []);
+        }
       } catch (e) {
         console.error("Failed to load seller profile:", e);
       } finally {
@@ -232,10 +255,46 @@ export default function SellerProfilePage() {
         {/* Tab Content */}
         <div className="py-8">
           {activeTab === "listings" && (
-            <div className="text-center text-white/40 py-12">
-              <p className="font-display text-xl">No active listings yet</p>
-              <p className="text-sm mt-2">When this seller lists cards, they&apos;ll appear here.</p>
-            </div>
+            listings.length === 0 ? (
+              <div className="text-center text-white/40 py-12">
+                <p className="font-display text-xl">No active listings yet</p>
+                <p className="text-sm mt-2">When this seller lists cards, they&apos;ll appear here.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                {listings.map((listing) => (
+                  <Link key={listing.id} href={`/card/${listing.id}`} className="group">
+                    <div className="card border border-white/10 hover:border-brawl/50 transition-all overflow-hidden">
+                      <div className="relative aspect-[2.5/3.5] bg-boba-panel">
+                        {listing.card_image_url ? (
+                          <Image
+                            src={listing.card_image_url}
+                            alt={listing.title || listing.card_name || "Card"}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                            sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 200px"
+                            unoptimized
+                          />
+                        ) : (
+                          <div className="flex items-center justify-center h-full text-4xl text-white/20">🃏</div>
+                        )}
+                      </div>
+                      <div className="p-3">
+                        <p className="text-sm font-display font-bold text-white truncate group-hover:text-hex transition-colors">
+                          {listing.card_name || listing.title}
+                        </p>
+                        {listing.card_set && (
+                          <p className="text-xs text-white/40 mt-0.5">{listing.card_set}</p>
+                        )}
+                        <p className="text-lg font-display font-black text-super mt-1">
+                          ${(listing.price_cents / 100).toFixed(2)}
+                        </p>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )
           )}
 
           {activeTab === "feedback" && (
