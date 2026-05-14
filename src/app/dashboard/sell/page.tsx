@@ -124,7 +124,7 @@ export default function SellerListingsPage() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-5xl font-display font-black text-white">My Listings</h1>
-          <p className="text-xl text-white/40 font-body mt-1">Manage your card inventory</p>
+          <p className="text-xl text-white/70 font-body mt-1">Manage your card inventory</p>
         </div>
         <div className="flex items-center gap-3">
           <Link href="/dashboard/inventory" className="btn-secondary text-lg px-6 py-3">
@@ -152,7 +152,7 @@ export default function SellerListingsPage() {
             className={`px-5 py-2 rounded-full font-display text-sm uppercase tracking-wider font-bold transition-all cursor-pointer ${
               activeFilter === f.key
                 ? "bg-gradient-to-r from-hex to-glow text-white"
-                : "bg-boba-gray border border-white/10 text-white/40 hover:text-white hover:border-white/30"
+                : "bg-boba-gray border border-white/15 text-white hover:text-super hover:border-hex/30 font-bold"
             }`}
           >
             {f.label}
@@ -173,20 +173,20 @@ export default function SellerListingsPage() {
           <table className="w-full">
             <thead>
               <tr className="border-b border-white/10 bg-boba-panel">
-                <th className="text-left p-4 text-xs text-white/30 font-display uppercase tracking-wider">Card</th>
-                <th className="text-center p-4 text-xs text-white/30 font-display uppercase tracking-wider">Condition</th>
-                <th className="text-center p-4 text-xs text-white/30 font-display uppercase tracking-wider">Qty</th>
-                <th className="text-right p-4 text-xs text-white/30 font-display uppercase tracking-wider">Price</th>
-                <th className="text-center p-4 text-xs text-white/30 font-display uppercase tracking-wider">Status</th>
-                <th className="text-center p-4 text-xs text-white/30 font-display uppercase tracking-wider">Views</th>
-                <th className="text-right p-4 text-xs text-white/30 font-display uppercase tracking-wider">Actions</th>
+                <th className="text-left p-4 text-sm text-white/70 font-display font-bold uppercase tracking-wider">Card</th>
+                <th className="text-center p-4 text-sm text-white/70 font-display font-bold uppercase tracking-wider">Condition</th>
+                <th className="text-center p-4 text-sm text-white/70 font-display font-bold uppercase tracking-wider">Qty</th>
+                <th className="text-right p-4 text-sm text-white/70 font-display font-bold uppercase tracking-wider">Price</th>
+                <th className="text-center p-4 text-sm text-white/70 font-display font-bold uppercase tracking-wider">Status</th>
+                <th className="text-center p-4 text-sm text-white/70 font-display font-bold uppercase tracking-wider">Views</th>
+                <th className="text-right p-4 text-sm text-white/70 font-display font-bold uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={7} className="p-8 text-center text-white/30 font-display">Loading...</td></tr>
+                <tr><td colSpan={7} className="p-8 text-center text-white/80 font-display">Loading...</td></tr>
               ) : listings.length === 0 ? (
-                <tr><td colSpan={7} className="p-8 text-center text-white/30 font-display">
+                <tr><td colSpan={7} className="p-8 text-center text-white/60 font-display">
                   No {activeFilter} listings — <Link href="/sell" className="text-hex hover:underline">create one</Link> or <Link href="/dashboard/sell/import-ebay" className="text-hex hover:underline">import from eBay</Link>
                 </td></tr>
               ) : (
@@ -210,11 +210,11 @@ export default function SellerListingsPage() {
                           {listing.status.toUpperCase()}
                         </span>
                       </td>
-                      <td className="p-4 text-center text-white/30 font-display">{listing.views}</td>
+                      <td className="p-4 text-center text-white/80 font-display">{listing.views}</td>
                       <td className="p-4 text-right">
                         <div className="flex items-center justify-end gap-2">
-                          <button onClick={saveEdit} className="text-xs text-glow hover:text-glow/80 font-display uppercase tracking-wider">Save</button>
-                          <button onClick={() => setEditingId(null)} className="text-xs text-white/30 hover:text-white font-display uppercase tracking-wider">Cancel</button>
+                          <button onClick={saveEdit} className="text-sm text-glow hover:text-glow/80 font-display font-bold uppercase tracking-wider">Save</button>
+                          <button onClick={() => setEditingId(null)} className="text-sm text-white hover:text-super font-display font-bold uppercase tracking-wider">Cancel</button>
                         </div>
                       </td>
                     </tr>
@@ -234,9 +234,9 @@ export default function SellerListingsPage() {
                         </div>
                       </td>
                       <td className="p-4 text-center">
-                        <span className="badge bg-white/5 text-white/50">{listing.condition}</span>
+                        <span className="badge bg-white/10 text-white/90">{listing.condition}</span>
                       </td>
-                      <td className="p-4 text-center text-white/50 font-display">{listing.quantity_available}</td>
+                      <td className="p-4 text-center text-white/80 font-display">{listing.quantity_available}</td>
                       <td className="p-4 text-right">
                         <span className="text-lg font-display font-black text-super">
                           ${(listing.price_cents / 100).toLocaleString("en-US", { minimumFractionDigits: 2 })}
@@ -247,11 +247,11 @@ export default function SellerListingsPage() {
                           {listing.status.toUpperCase()}
                         </span>
                       </td>
-                      <td className="p-4 text-center text-white/30 font-display">{listing.views}</td>
+                      <td className="p-4 text-center text-white/80 font-display">{listing.views}</td>
                       <td className="p-4 text-right">
                         <div className="flex items-center justify-end gap-2">
-                          <button onClick={() => handleEdit(listing)} className="text-xs text-white/30 hover:text-white font-display uppercase tracking-wider">Edit</button>
-                          <button onClick={() => handleDelete(listing.id)} className="text-xs text-fire/50 hover:text-fire font-display uppercase tracking-wider">Delete</button>
+                          <button onClick={() => handleEdit(listing)} className="text-sm text-white hover:text-super font-display font-bold uppercase tracking-wider">Edit</button>
+                          <button onClick={() => handleDelete(listing.id)} className="text-sm text-fire/70 hover:text-fire font-display font-bold uppercase tracking-wider">Delete</button>
                         </div>
                       </td>
                     </tr>

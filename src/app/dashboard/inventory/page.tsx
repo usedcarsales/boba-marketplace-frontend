@@ -211,7 +211,7 @@ export default function InventoryPage() {
         {/* Bulk Actions Bar */}
         <div className="bg-boba-panel rounded-boba p-4 border border-white/10 mb-6">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="text-white/40 text-sm font-display">{selected.size} selected</span>
+            <span className="text-white/70 text-sm font-display">{selected.size} selected</span>
             <select
               value={bulkAction}
               onChange={(e) => setBulkAction(e.target.value)}
@@ -261,7 +261,7 @@ export default function InventoryPage() {
               key={s}
               onClick={() => setStatusFilter(s)}
               className={`px-4 py-2 rounded-full font-display text-xs uppercase tracking-wider transition-all
-                ${statusFilter === s ? "bg-white/20 text-white" : "bg-white/5 text-white/40 hover:bg-white/10"}`}
+                ${statusFilter === s ? "bg-white/20 text-white" : "bg-white/5 text-white/70 hover:bg-white/10"}`}
             >
               {s}
             </button>
@@ -276,20 +276,20 @@ export default function InventoryPage() {
                 <th className="p-3 text-left">
                   <input type="checkbox" checked={selected.size === listings.length && listings.length > 0} onChange={selectAll} className="accent-boba-red" />
                 </th>
-                <th className="p-3 text-left text-white/40 font-display text-xs uppercase">Card</th>
-                <th className="p-3 text-left text-white/40 font-display text-xs uppercase">Condition</th>
-                <th className="p-3 text-right text-white/40 font-display text-xs uppercase">Price</th>
-                <th className="p-3 text-right text-white/40 font-display text-xs uppercase">Qty</th>
-                <th className="p-3 text-right text-white/40 font-display text-xs uppercase">Views</th>
-                <th className="p-3 text-left text-white/40 font-display text-xs uppercase">Source</th>
-                <th className="p-3 text-left text-white/40 font-display text-xs uppercase">Listed</th>
+                <th className="p-3 text-left text-white/70 font-display text-xs uppercase">Card</th>
+                <th className="p-3 text-left text-white/70 font-display text-xs uppercase">Condition</th>
+                <th className="p-3 text-right text-white/70 font-display text-xs uppercase">Price</th>
+                <th className="p-3 text-right text-white/70 font-display text-xs uppercase">Qty</th>
+                <th className="p-3 text-right text-white/70 font-display text-xs uppercase">Views</th>
+                <th className="p-3 text-left text-white/70 font-display text-xs uppercase">Source</th>
+                <th className="p-3 text-left text-white/70 font-display text-xs uppercase">Listed</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr><td colSpan={8} className="p-8 text-center text-white/30">Loading...</td></tr>
               ) : listings.length === 0 ? (
-                <tr><td colSpan={8} className="p-8 text-center text-white/30 font-display">No {statusFilter} listings</td></tr>
+                <tr><td colSpan={8} className="p-8 text-center text-white/60 font-display">No {statusFilter} listings</td></tr>
               ) : (
                 listings.map((listing) => (
                   <tr key={listing.id} className="border-b border-white/5 hover:bg-white/5 transition">
@@ -312,7 +312,7 @@ export default function InventoryPage() {
                     <td className="p-3 text-white/60 text-sm">{listing.condition}</td>
                     <td className="p-3 text-right text-boba-gold font-display font-bold">${(listing.price_cents / 100).toFixed(2)}</td>
                     <td className="p-3 text-right text-white/60 text-sm">{listing.quantity_available}</td>
-                    <td className="p-3 text-right text-white/40 text-sm">{listing.views}</td>
+                    <td className="p-3 text-right text-white/70 text-sm">{listing.views}</td>
                     <td className="p-3">
                       <span className={`text-xs px-2 py-0.5 rounded-full ${listing.source === "discord_pipeline" ? "bg-hex/20 text-hex" : "bg-white/10 text-white/40"}`}>
                         {listing.source === "discord_pipeline" ? "🤖 Bot" : listing.source === "bulk_import" ? "📦 Bulk" : "✍️ Manual"}

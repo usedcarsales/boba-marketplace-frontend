@@ -133,7 +133,7 @@ export default function PurchasesDashboard() {
       <div className="flex items-center gap-3 mb-2">
         <Link
           href="/dashboard"
-          className="text-white/30 hover:text-white transition-colors font-display uppercase tracking-wider text-sm"
+          className="text-white/60 hover:text-white transition-colors font-display uppercase tracking-wider text-sm"
         >
           ← Dashboard
         </Link>
@@ -141,11 +141,11 @@ export default function PurchasesDashboard() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-5xl font-display font-black text-white">My Purchases</h1>
-          <p className="text-white/40 text-lg font-body">Track your orders and manage your buying activity</p>
+          <p className="text-white/70 text-lg font-body">Track your orders and manage your buying activity</p>
         </div>
         <div className="text-right">
           <p className="text-3xl font-display font-black text-super">{purchases.length}</p>
-          <p className="text-white/30 text-sm font-display uppercase tracking-wider">Total Orders</p>
+          <p className="text-white/60 text-sm font-display uppercase tracking-wider">Total Orders</p>
         </div>
       </div>
 
@@ -158,7 +158,7 @@ export default function PurchasesDashboard() {
             className={`px-4 py-2 rounded-full font-display uppercase tracking-wider text-sm font-bold whitespace-nowrap transition-all ${
               filter === s
                 ? "bg-hex text-white"
-                : "bg-white/5 text-white/40 hover:bg-white/10"
+                : "bg-white/5 text-white/70 hover:bg-white/10"
             }`}
           >
             {s === "all" ? "All Orders" : s.charAt(0).toUpperCase() + s.slice(1)}
@@ -186,7 +186,7 @@ export default function PurchasesDashboard() {
         <div className="card border border-fire/30 bg-fire/5 p-12 text-center">
           <span className="text-5xl block mb-4">⚠️</span>
           <h2 className="text-2xl font-display font-bold text-white mb-2">Failed to Load Orders</h2>
-          <p className="text-white/40 mb-6">{error}</p>
+          <p className="text-white/70 mb-6">{error}</p>
           <button
             onClick={() => {
               const token = localStorage.getItem("boba-token");
@@ -201,7 +201,7 @@ export default function PurchasesDashboard() {
         <div className="card border border-white/10 p-12 text-center">
           <span className="text-5xl block mb-4">🛒</span>
           <h2 className="text-2xl font-display font-bold text-white mb-2">No purchases yet</h2>
-          <p className="text-white/40 mb-6">
+          <p className="text-white/70 mb-6">
             {filter === "all"
               ? "Browse the marketplace to find Bo Jackson cards."
               : `No orders with status "${filter}".`}
@@ -213,7 +213,7 @@ export default function PurchasesDashboard() {
       ) : (
         <>
           {/* Desktop table header */}
-          <div className="hidden md:grid grid-cols-12 gap-4 px-5 mb-2 text-xs font-display font-bold uppercase tracking-wider text-white/30">
+          <div className="hidden md:grid grid-cols-12 gap-4 px-5 mb-2 text-sm font-display font-bold uppercase tracking-wider text-white/70">
             <div className="col-span-1">Date</div>
             <div className="col-span-4">Card</div>
             <div className="col-span-2">Seller</div>
@@ -260,7 +260,7 @@ export default function PurchasesDashboard() {
                         <p className="text-sm text-white/40">
                           {purchase.card?.set_name} · {purchase.listing_condition}
                         </p>
-                        <p className="text-xs text-white/30 mt-0.5">
+                        <p className="text-sm text-white/60 mt-0.5">
                           {new Date(purchase.created_at).toLocaleDateString()}
                         </p>
                       </div>
@@ -346,7 +346,7 @@ export default function PurchasesDashboard() {
                         <p className="text-sm font-display font-bold text-white truncate">
                           {purchase.card?.name || purchase.listing_title}
                         </p>
-                        <p className="text-xs text-white/40 truncate">
+                        <p className="text-sm text-white/70 truncate">
                           {purchase.card?.set_name} · {purchase.listing_condition}
                         </p>
                       </div>
@@ -385,9 +385,9 @@ export default function PurchasesDashboard() {
                           📦 Track →
                         </a>
                       ) : purchase.status === "shipped" ? (
-                        <span className="text-white/20 text-xs">No tracking</span>
+                        <span className="text-white/60 text-sm">No tracking</span>
                       ) : (
-                        <span className="text-white/20 text-xs">—</span>
+                        <span className="text-white/60 text-sm">—</span>
                       )}
                     </div>
 

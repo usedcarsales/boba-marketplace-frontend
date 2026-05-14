@@ -134,7 +134,7 @@ export default function SellerOrdersPage() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-5xl font-display font-black text-white">Sales</h1>
-          <p className="text-white/40 text-lg">Manage your orders and shipments</p>
+          <p className="text-white/70 text-lg">Manage your orders and shipments</p>
         </div>
         {pendingCount > 0 && (
           <div className="bg-fire/20 border border-fire/40 rounded-full px-4 py-2">
@@ -152,7 +152,7 @@ export default function SellerOrdersPage() {
             key={s}
             onClick={() => setFilter(s)}
             className={`px-4 py-2 rounded-full font-display uppercase tracking-wider text-sm font-bold whitespace-nowrap transition-all ${
-              filter === s ? "bg-hex text-white" : "bg-white/5 text-white/40 hover:bg-white/10"
+              filter === s ? "bg-hex text-white" : "bg-white/5 text-white/70 hover:bg-white/10"
             }`}
           >
             {s === "all" ? "All Orders" : s.charAt(0).toUpperCase() + s.slice(1)}
@@ -168,7 +168,7 @@ export default function SellerOrdersPage() {
         <div className="card border border-white/10 p-12 text-center">
           <span className="text-5xl block mb-4">📭</span>
           <h2 className="text-2xl font-display font-bold text-white mb-2">No orders yet</h2>
-          <p className="text-white/40 mb-6">When buyers purchase your cards, orders will appear here.</p>
+          <p className="text-white/70 mb-6">When buyers purchase your cards, orders will appear here.</p>
           <Link href="/sell" className="btn-primary">List a Card</Link>
         </div>
       ) : (
@@ -220,18 +220,18 @@ export default function SellerOrdersPage() {
                     {/* Timestamps */}
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
                       <div>
-                        <span className="text-white/30 block">Ordered</span>
+                        <span className="text-white/60 block">Ordered</span>
                         <span className="text-white">{new Date(order.created_at).toLocaleDateString()}</span>
                       </div>
                       {order.paid_at && (
                         <div>
-                          <span className="text-white/30 block">Paid</span>
+                          <span className="text-white/60 block">Paid</span>
                           <span className="text-glow">{new Date(order.paid_at).toLocaleDateString()}</span>
                         </div>
                       )}
                       {order.ship_by && (
                         <div>
-                          <span className="text-white/30 block">Ship By</span>
+                          <span className="text-white/60 block">Ship By</span>
                           <span className={isOverdue ? "text-fire font-bold" : "text-white"}>
                             {new Date(order.ship_by).toLocaleString()}
                             {isOverdue && " ⚠️ OVERDUE"}
@@ -240,7 +240,7 @@ export default function SellerOrdersPage() {
                       )}
                       {order.shipped_at && (
                         <div>
-                          <span className="text-white/30 block">Shipped</span>
+                          <span className="text-white/60 block">Shipped</span>
                           <span className="text-ice">{new Date(order.shipped_at).toLocaleDateString()}</span>
                         </div>
                       )}
@@ -250,9 +250,9 @@ export default function SellerOrdersPage() {
                     <div className="card border border-white/10 p-4">
                       <h4 className="text-sm font-display font-bold text-white/50 uppercase tracking-wider mb-2">Ship To</h4>
                       <p className="text-white font-bold">{order.ship_to.name}</p>
-                      <p className="text-white/70">{order.ship_to.address1}</p>
-                      {order.ship_to.address2 && <p className="text-white/70">{order.ship_to.address2}</p>}
-                      <p className="text-white/70">
+                      <p className="text-white/90">{order.ship_to.address1}</p>
+                      {order.ship_to.address2 && <p className="text-white/90">{order.ship_to.address2}</p>}
+                      <p className="text-white/90">
                         {order.ship_to.city}, {order.ship_to.state} {order.ship_to.zip}
                       </p>
                     </div>
@@ -268,19 +268,19 @@ export default function SellerOrdersPage() {
                     {/* Tracking info */}
                     {order.tracking_number && (
                       <div className="flex items-center gap-2">
-                        <span className="text-white/30 text-sm">Tracking:</span>
+                        <span className="text-white/60 text-sm">Tracking:</span>
                         <span className="text-white font-mono">{order.tracking_number}</span>
-                        <span className="text-white/30 text-sm">({order.tracking_carrier?.toUpperCase()})</span>
+                        <span className="text-white/60 text-sm">({order.tracking_carrier?.toUpperCase()})</span>
                       </div>
                     )}
 
                     {/* Payout status */}
                     <div className="flex items-center gap-2">
-                      <span className="text-white/30 text-sm">Payout:</span>
+                      <span className="text-white/60 text-sm">Payout:</span>
                       {order.payout_released ? (
                         <span className="text-glow text-sm">✅ Released — ${(order.seller_payout_cents / 100).toFixed(2)}</span>
                       ) : (
-                        <span className="text-white/40 text-sm">⏳ Held until delivery confirmed</span>
+                        <span className="text-white/70 text-sm">⏳ Held until delivery confirmed</span>
                       )}
                     </div>
 
@@ -300,7 +300,7 @@ export default function SellerOrdersPage() {
                         <h4 className="font-display font-bold text-white">Enter Shipping Details</h4>
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <label className="text-xs text-white/40 block mb-1">Carrier</label>
+                            <label className="text-sm text-white/70 block mb-1">Carrier</label>
                             <select
                               value={shipForm.carrier}
                               onChange={(e) => setShipForm({ ...shipForm, carrier: e.target.value })}
@@ -312,7 +312,7 @@ export default function SellerOrdersPage() {
                             </select>
                           </div>
                           <div>
-                            <label className="text-xs text-white/40 block mb-1">
+                            <label className="text-sm text-white/70 block mb-1">
                               Tracking # {order.subtotal_cents >= 2000 ? "(required)" : "(optional)"}
                             </label>
                             <input

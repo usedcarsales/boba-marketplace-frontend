@@ -110,7 +110,7 @@ export default function ProfilePage() {
   if (loading) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-8">
-        <div className="animate-pulse text-white/40 font-display text-2xl">Loading profile...</div>
+        <div className="animate-pulse text-white/70 font-display text-2xl">Loading profile...</div>
       </div>
     );
   }
@@ -126,7 +126,7 @@ export default function ProfilePage() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-white/40 mb-6">
+      <div className="flex items-center gap-2 text-sm text-white/70 mb-6">
         <a href="/dashboard" className="hover:text-hex transition-colors">
           ← Dashboard
         </a>
@@ -137,7 +137,7 @@ export default function ProfilePage() {
       <h1 className="text-4xl font-display font-black text-white mb-2">
         Your Profile
       </h1>
-      <p className="text-white/40 font-body mb-8">
+      <p className="text-white/70 font-body mb-8">
         Manage your username, bio, and public profile.
       </p>
 
@@ -162,8 +162,8 @@ export default function ProfilePage() {
             <h2 className="text-2xl font-display font-black text-white">
               {profile.display_name || profile.username}
             </h2>
-            <p className="text-white/40 text-sm">@{profile.username}</p>
-            <p className="text-white/30 text-xs mt-1">
+            <p className="text-white/70 text-sm">@{profile.username}</p>
+            <p className="text-white/70 text-sm mt-1">
               Member since {new Date(profile.created_at).toLocaleDateString("en-US", { month: "long", year: "numeric" })}
               {" · "}{profile.total_sales} sales · ★ {profile.rating.toFixed(1)}
             </p>
@@ -174,15 +174,15 @@ export default function ProfilePage() {
         <div className="grid grid-cols-3 gap-4">
           <div className="bg-boba-panel rounded-lg p-3 text-center">
             <p className="text-xl font-display font-black text-glow">{profile.total_sales}</p>
-            <p className="text-xs text-white/40 uppercase tracking-wider">Sales</p>
+            <p className="text-sm text-white/70 font-display font-bold uppercase tracking-wider">Sales</p>
           </div>
           <div className="bg-boba-panel rounded-lg p-3 text-center">
             <p className="text-xl font-display font-black text-ice">{profile.total_purchases}</p>
-            <p className="text-xs text-white/40 uppercase tracking-wider">Purchases</p>
+            <p className="text-sm text-white/70 font-display font-bold uppercase tracking-wider">Purchases</p>
           </div>
           <div className="bg-boba-panel rounded-lg p-3 text-center">
             <p className="text-xl font-display font-black text-super">★ {profile.rating.toFixed(1)}</p>
-            <p className="text-xs text-white/40 uppercase tracking-wider">Rating</p>
+            <p className="text-sm text-white/70 font-display font-bold uppercase tracking-wider">Rating</p>
           </div>
         </div>
       </div>
@@ -195,11 +195,11 @@ export default function ProfilePage() {
 
         {/* Username */}
         <div className="mb-5">
-          <label className="block text-xs text-white/40 uppercase tracking-wider mb-1">
+          <label className="block text-sm text-white/70 font-display font-bold uppercase tracking-wider mb-1">
             Username
           </label>
           <div className="flex items-center gap-2">
-            <span className="text-white/30">@</span>
+            <span className="text-white/80">@</span>
             <input
               type="text"
               value={username}
@@ -216,7 +216,7 @@ export default function ProfilePage() {
 
         {/* Display Name */}
         <div className="mb-5">
-          <label className="block text-xs text-white/40 uppercase tracking-wider mb-1">
+          <label className="block text-sm text-white/70 font-display font-bold uppercase tracking-wider mb-1">
             Display Name
           </label>
           <input
@@ -231,7 +231,7 @@ export default function ProfilePage() {
 
         {/* Bio */}
         <div className="mb-5">
-          <label className="block text-xs text-white/40 uppercase tracking-wider mb-1">
+          <label className="block text-sm text-white/70 font-display font-bold uppercase tracking-wider mb-1">
             Bio
           </label>
           <textarea
@@ -269,7 +269,7 @@ export default function ProfilePage() {
           <h3 className="text-xl font-display font-bold text-brawl mb-2 uppercase tracking-wider">
             🏪 Seller Setup Required
           </h3>
-          <p className="text-white/50 text-sm mb-4">
+          <p className="text-white/80 text-sm mb-4">
             Complete Stripe onboarding to start selling cards on BoBA.
           </p>
           <a href="/dashboard/sell/onboard" className="btn-primary px-6 py-2 inline-block">
@@ -283,10 +283,10 @@ export default function ProfilePage() {
         <h3 className="text-xl font-display font-bold text-fire/60 mb-2 uppercase tracking-wider">
           ⚠️ Account
         </h3>
-        <p className="text-white/30 text-sm">
+        <p className="text-white/60 text-sm">
           Email: {profile.email}
         </p>
-        <p className="text-white/30 text-sm mt-1">
+        <p className="text-white/60 text-sm mt-1">
           Role: <span className="text-white/50 capitalize">{profile.role}</span>
         </p>
       </div>
