@@ -164,7 +164,7 @@ class ApiClient {
       recent_sales: number;
       recent_gmv_cents: number;
       avg_listing_price_cents: number;
-    }>"/api/marketplace/stats");
+    }>("/api/marketplace/stats");
   }
 }
 
