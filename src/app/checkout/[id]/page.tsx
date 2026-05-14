@@ -83,6 +83,39 @@ export default function CheckoutPage() {
     return () => { document.body.removeChild(script); };
   }, []);
 
+  // Mount PaymentElement AFTER React renders the payment step DOM
+  useEffect(() => {
+    if (step !== "payment" || !stripe || !checkoutData?.client_secret) return;
+    // Small delay to ensure React has committed the #payment-element div to DOM
+    const timer = setTimeout(() => {
+      const mountPoint = document.getElementById("payment-element");
+      if (!mountPoint) {
+        setError("Payment form could not load — please refresh and try again.");
+        return;
+      }
+      // Remove any previously mounted elements
+      mountPoint.innerHTML = "";
+      const elems = stripe.elements({
+        clientSecret: checkoutData.client_secret,
+        appearance: {
+          theme: "night",
+          variables: {
+            colorPrimary: "#D1493D",
+            colorBackground: "#242424",
+            colorText: "#ffffff",
+            colorDanger: "#EF4444",
+            fontFamily: "'Saira Extra Condensed', sans-serif",
+            borderRadius: "16px",
+          },
+        },
+      });
+      const paymentElement = elems.create("payment");
+      paymentElement.mount("#payment-element");
+      setElements(elems);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [step, checkoutData, stripe]);
+
   // Fetch listing
   useEffect(() => {
     fetch(`${API_BASE}/api/listings/${listingId}`)
@@ -140,27 +173,6 @@ export default function CheckoutPage() {
       const checkout: CheckoutResponse = await res.json();
       setCheckoutData(checkout);
       setStep("payment");
-
-      // Mount Stripe Payment Element
-      if (stripe && checkout.client_secret) {
-        const elems = stripe.elements({
-          clientSecret: checkout.client_secret,
-          appearance: {
-            theme: "night",
-            variables: {
-              colorPrimary: "#D1493D",
-              colorBackground: "#242424",
-              colorText: "#ffffff",
-              colorDanger: "#EF4444",
-              fontFamily: "'Saira Extra Condensed', sans-serif",
-              borderRadius: "16px",
-            },
-          },
-        });
-        const paymentElement = elems.create("payment");
-        paymentElement.mount("#payment-element");
-        setElements(elems);
-      }
     } catch (e: any) {
       setError(e.message);
       setStep("review");
