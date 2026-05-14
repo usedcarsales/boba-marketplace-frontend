@@ -231,7 +231,7 @@ export default function CardDetailPage() {
                 </span>
               )}
               {card.parallel && (
-                <span className="badge bg-white/5 text-white/50 text-sm px-3 py-1">
+                <span className={`badge ${wc.bg} ${wc.text} text-lg px-3 py-1 border ${wc.border}`}>
                   {card.parallel}
                 </span>
               )}

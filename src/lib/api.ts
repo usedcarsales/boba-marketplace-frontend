@@ -147,6 +147,25 @@ class ApiClient {
   async getMySales() {
     return this.request<import("@/types").Order[]>("/api/users/me/sales");
   }
+
+  // Marketplace
+  async getMarketplaceStats() {
+    return this.request<{
+      total_cards: number;
+      sets: number;
+      weapons: number;
+      total_listings: number;
+      active_listings: number;
+      total_sellers: number;
+      total_users: number;
+      total_orders: number;
+      completed_orders: number;
+      est_gmv_cents: number;
+      recent_sales: number;
+      recent_gmv_cents: number;
+      avg_listing_price_cents: number;
+    }>("/api/marketplace/stats");
+  }
 }
 
 export const api = new ApiClient(API_URL);
