@@ -3,11 +3,9 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { CryptoCheckoutButton } from "@/components/CryptoCheckoutButton";
 
 import { API_BASE } from "@/lib/api";
 
-// Use live key for production, fallback to env var
 const STRIPE_PK = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || "pk_live_51TB62iFCjIsAzbKc3N4sb0Lox13aM81B8wZ1Fy5jE2dX88xyygC0KIPxt1spwxbnrFl3Mjb1JI3ZG1pTu0BpYz2y00tthYqsmS";
 
 interface ListingData {
@@ -20,24 +18,20 @@ interface ListingData {
   card?: { name: string; image_url: string; set_name: string; weapon: string };
 }
 
-interface OrderData {
-  id: string;
-  buyer_id: string;
-  seller_id: string;
-  listing_id: string;
-  quantity: number;
-  subtotal_cents: number;
-  platform_fee_cents: number;
-  stripe_fee_cents: number;
-  seller_payout_cents: number;
-  status: string;
-}
-
-interface StripeCheckoutData {
-  client_secret: string;
+interface CheckoutResponse {
   order_id: string;
-  escrow_hold: boolean;
-  amount_cents: number;
+  client_secret: string;
+  subtotal_cents: number;
+  shipping_cents: number;
+  platform_fee_cents: number;
+  order_fee_cents: number;
+  stripe_fee_cents: number;
+  total_cents: number;
+  seller_payout_cents: number;
+  shipping_method: string;
+  requires_insurance: boolean;
+  requires_signature: boolean;
+  tracking_required: boolean;
 }
 
 const SHIPPING_METHODS = [
@@ -53,12 +47,20 @@ export default function CheckoutPage() {
 
   const [listing, setListing] = useState<ListingData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [step, setStep] = useState<"review" | "payment" | "processing" | "done">("review");
   const [error, setError] = useState<string | null>(null);
-  const [orderData, setOrderData] = useState<OrderData | null>(null);
-  const [checkoutData, setCheckoutData] = useState<StripeCheckoutData | null>(null);
+  const [step, setStep] = useState<"review" | "payment" | "processing" | "done">("review");
+  const [checkoutData, setCheckoutData] = useState<CheckoutResponse | null>(null);
   const [shippingMethod, setShippingMethod] = useState("bubble_mailer");
   const [quantity, setQuantity] = useState(1);
+
+  // Shipping address fields
+  const [shipToName, setShipToName] = useState("");
+  const [shipToAddress1, setShipToAddress1] = useState("");
+  const [shipToAddress2, setShipToAddress2] = useState("");
+  const [shipToCity, setShipToCity] = useState("");
+  const [shipToState, setShipToState] = useState("");
+  const [shipToZip, setShipToZip] = useState("");
+  const [shipToCountry, setShipToCountry] = useState("US");
 
   // Stripe
   const [stripe, setStripe] = useState<any>(null);
@@ -89,68 +91,53 @@ export default function CheckoutPage() {
       .catch((e) => { setError(e.message); setLoading(false); });
   }, [listingId]);
 
-  // Step 1: Create the order
-  async function createOrder() {
+  // Submit checkout: POST /api/orders/checkout
+  async function handleCheckout() {
     if (!token) { router.push("/auth?redirect=/checkout/" + listingId); return; }
     if (!listing) return;
+    if (!shipToName || !shipToAddress1 || !shipToCity || !shipToState || !shipToZip) {
+      setError("Please fill in all shipping address fields.");
+      return;
+    }
 
     setError(null);
     setStep("processing");
 
     try {
-      const res = await fetch(`${API_BASE}/api/orders`, {
+      const res = await fetch(`${API_BASE}/api/orders/checkout`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
         body: JSON.stringify({
           listing_id: listingId,
           quantity,
+          shipping_method: shippingMethod,
+          ship_to_name: shipToName,
+          ship_to_address1: shipToAddress1,
+          ship_to_address2: shipToAddress2 || null,
+          ship_to_city: shipToCity,
+          ship_to_state: shipToState,
+          ship_to_zip: shipToZip,
+          ship_to_country: shipToCountry,
         }),
       });
 
       if (!res.ok) {
-        const err = await res.json().catch(() => ({ detail: "Failed to create order" }));
-        // Make seller onboarding errors user-friendly
+        const err = await res.json().catch(() => ({ detail: "Checkout failed" }));
         const detail = err.detail || "";
         if (detail.includes("Cannot buy your own")) {
           throw new Error("You can't buy your own listing!");
         } else if (detail.includes("not available") || detail.includes("not found")) {
-          throw new Error("This listing is no longer available. It may have been sold or removed.");
-        } else if (detail.includes("Insufficient quantity")) {
-          throw new Error("Not enough copies available. Try a lower quantity.");
+          throw new Error("This listing is no longer available.");
+        } else if (detail.includes("payment not configured") || detail.includes("Stripe onboarding") || detail.includes("has not completed")) {
+          throw new Error("The seller hasn't completed payment setup. Please try again later.");
         } else if (detail) {
           throw new Error(detail);
         } else {
-          throw new Error(`Order creation failed (${res.status})`);
+          throw new Error(`Checkout failed (${res.status})`);
         }
       }
 
-      const order: OrderData = await res.json();
-      setOrderData(order);
-
-      // Step 2: Create Stripe PaymentIntent
-      const checkoutRes = await fetch(`${API_BASE}/api/orders/${order.id}/stripe-checkout`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-      });
-
-      if (!checkoutRes.ok) {
-        const err = await checkoutRes.json().catch(() => ({ detail: "Payment setup failed" }));
-        // Make payment errors user-friendly
-        const detail = err.detail || "";
-        if (detail.includes("Stripe onboarding") || detail.includes("has not completed") || detail.includes("stripe_account")) {
-          throw new Error("The seller hasn't completed their payment setup yet. We've notified them — please try again later.");
-        } else if (detail.includes("Stripe not configured")) {
-          throw new Error("Payments are temporarily unavailable. Please try again later.");
-        } else if (detail.includes("pending")) {
-          throw new Error("Your order is still being processed. Please wait a moment and try again.");
-        } else if (detail) {
-          throw new Error(detail);
-        } else {
-          throw new Error(`Payment setup failed (${checkoutRes.status})`);
-        }
-      }
-
-      const checkout: StripeCheckoutData = await checkoutRes.json();
+      const checkout: CheckoutResponse = await res.json();
       setCheckoutData(checkout);
       setStep("payment");
 
@@ -197,7 +184,6 @@ export default function CheckoutPage() {
         setError(result.error.message || "Payment failed");
         setPaymentProcessing(false);
       }
-      // If successful, Stripe redirects to return_url
     } catch (e: any) {
       setError(e.message);
       setPaymentProcessing(false);
@@ -243,6 +229,12 @@ export default function CheckoutPage() {
     <div className="min-h-screen bg-boba-dark">
       <div className="max-w-screen-xl mx-auto px-6 sm:px-8 lg:px-12 py-12">
         <h1 className="font-display font-black text-5xl text-white mb-10 uppercase">Checkout</h1>
+
+        {error && step !== "processing" && (
+          <div className="mb-6 p-4 bg-red-900/30 border border-red-500/50 rounded-2xl text-red-300 font-display">
+            {error}
+          </div>
+        )}
 
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Left: Form */}
@@ -291,7 +283,7 @@ export default function CheckoutPage() {
                   ))}
                 </div>
 
-                <div className="flex items-center gap-4 pt-4">
+                <div className="flex items-center gap-4 pt-2">
                   <label className="text-white font-display font-bold text-base">Qty:</label>
                   <select
                     value={quantity}
@@ -302,63 +294,84 @@ export default function CheckoutPage() {
                       <option key={n} value={n}>{n}</option>
                     ))}
                   </select>
-                  <span className="text-white/40 text-sm">of {listing?.quantity_available} available</span>
                 </div>
 
-                {error && <p className="text-fire text-base font-display font-bold">{error}</p>}
+                {/* Shipping Address */}
+                <h2 className="font-display font-black text-2xl text-white uppercase pt-4">Shipping Address</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="md:col-span-2">
+                    <label className="text-white/50 text-sm font-display">Full Name *</label>
+                    <input type="text" value={shipToName} onChange={e => setShipToName(e.target.value)}
+                      className="w-full bg-boba-dark border border-white/20 rounded-lg px-4 py-3 text-white mt-1"
+                      placeholder="John Doe" required />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="text-white/50 text-sm font-display">Address Line 1 *</label>
+                    <input type="text" value={shipToAddress1} onChange={e => setShipToAddress1(e.target.value)}
+                      className="w-full bg-boba-dark border border-white/20 rounded-lg px-4 py-3 text-white mt-1"
+                      placeholder="123 Main St" required />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="text-white/50 text-sm font-display">Address Line 2</label>
+                    <input type="text" value={shipToAddress2} onChange={e => setShipToAddress2(e.target.value)}
+                      className="w-full bg-boba-dark border border-white/20 rounded-lg px-4 py-3 text-white mt-1"
+                      placeholder="Apt, Suite, Unit (optional)" />
+                  </div>
+                  <div>
+                    <label className="text-white/50 text-sm font-display">City *</label>
+                    <input type="text" value={shipToCity} onChange={e => setShipToCity(e.target.value)}
+                      className="w-full bg-boba-dark border border-white/20 rounded-lg px-4 py-3 text-white mt-1"
+                      placeholder="City" required />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-white/50 text-sm font-display">State *</label>
+                      <input type="text" value={shipToState} onChange={e => setShipToState(e.target.value)}
+                        className="w-full bg-boba-dark border border-white/20 rounded-lg px-4 py-3 text-white mt-1"
+                        placeholder="NJ" maxLength={2} required />
+                    </div>
+                    <div>
+                      <label className="text-white/50 text-sm font-display">ZIP *</label>
+                      <input type="text" value={shipToZip} onChange={e => setShipToZip(e.target.value)}
+                        className="w-full bg-boba-dark border border-white/20 rounded-lg px-4 py-3 text-white mt-1"
+                        placeholder="08000" required />
+                    </div>
+                  </div>
+                </div>
 
                 <button
-                  onClick={createOrder}
-                  className="w-full btn-primary text-lg py-4"
+                  onClick={handleCheckout}
+                  className="btn-primary w-full text-lg py-4 font-display font-black uppercase mt-4"
                 >
                   Continue to Payment →
                 </button>
               </div>
             )}
 
-            {/* Processing */}
-            {step === "processing" && (
-              <div className="card border border-white/10 p-12 text-center">
-                <div className="animate-spin w-12 h-12 border-4 border-boba-red border-t-transparent rounded-full mx-auto mb-4" />
-                <p className="text-white font-display font-bold text-xl">Creating your order...</p>
-              </div>
-            )}
-
             {/* Step 2: Payment */}
-            {step === "payment" && (
+            {step === "payment" && checkoutData && (
               <div className="card border border-white/10 p-6 space-y-6">
                 <h2 className="font-display font-black text-2xl text-white uppercase">Payment</h2>
-                <div id="payment-element" className="min-h-[250px]" />
-
-                {error && <p className="text-fire text-base font-display font-bold mt-2">{error}</p>}
-
+                <div id="payment-element" className="min-h-[300px]" />
+                {paymentProcessing && <div className="animate-pulse text-white/40 font-display text-center">Processing payment...</div>}
                 <button
                   onClick={confirmPayment}
-                  disabled={paymentProcessing || !elements}
-                  className="w-full bg-super text-black py-4 rounded-full font-display font-bold text-xl uppercase hover:brightness-110 transition disabled:opacity-50"
+                  disabled={paymentProcessing}
+                  className="btn-primary w-full text-lg py-4 font-display font-black uppercase"
                 >
-                  {paymentProcessing ? "Processing..." : checkoutData ? `Pay $${((checkoutData.amount_cents + shippingCents) / 100).toFixed(2)}` : "Pay"}
+                  {paymentProcessing ? "Processing..." : `Pay $${(checkoutData.total_cents / 100).toFixed(2)}`}
                 </button>
-
-                {/* Crypto payment alternative */}
-                {checkoutData && (
-                  <div className="pt-2">
-                    <div className="flex items-center gap-3 my-3">
-                      <div className="flex-1 h-px bg-white/10" />
-                      <span className="text-white/30 text-sm font-display uppercase">or pay with crypto</span>
-                      <div className="flex-1 h-px bg-white/10" />
-                    </div>
-                    <CryptoCheckoutButton
-                      orderId={checkoutData.order_id}
-                      totalCents={checkoutData.amount_cents + shippingCents}
-                      disabled={paymentProcessing}
-                    />
-                  </div>
-                )}
-
                 <button onClick={() => setStep("review")} className="text-white/40 text-base font-display hover:text-white transition">
                   ← Back to Shipping
                 </button>
+              </div>
+            )}
+
+            {/* Processing */}
+            {step === "processing" && !checkoutData && (
+              <div className="card border border-white/10 p-8 text-center">
+                <div className="animate-spin w-12 h-12 border-4 border-boba-red border-t-transparent rounded-full mx-auto mb-4" />
+                <p className="text-white font-display text-xl">Creating your order...</p>
               </div>
             )}
           </div>
@@ -393,18 +406,18 @@ export default function CheckoutPage() {
                   <span className="text-white/50">Shipping</span>
                   <span className="text-white font-display font-bold">{SHIPPING_METHODS.find(m => m.value === shippingMethod)?.priceLabel}</span>
                 </div>
-                {orderData && (
+                {checkoutData && (
                   <>
                     <div className="flex justify-between text-white/40 text-sm">
-                      <span>Platform fee (8% + $0.25)</span>
-                      <span>${((orderData.platform_fee_cents) / 100).toFixed(2)}</span>
+                      <span>Platform fee</span>
+                      <span>${((checkoutData.platform_fee_cents + checkoutData.order_fee_cents) / 100).toFixed(2)}</span>
                     </div>
                   </>
                 )}
                 <div className="flex justify-between border-t border-white/10 pt-3 mt-3">
                   <span className="text-white font-display font-black text-lg">Total</span>
                   <span className="text-super font-display font-black text-2xl">
-                    ${((subtotal + shippingCents) / 100).toFixed(2)}
+                    ${checkoutData ? (checkoutData.total_cents / 100).toFixed(2) : ((subtotal + shippingCents) / 100).toFixed(2)}
                   </span>
                 </div>
               </div>
