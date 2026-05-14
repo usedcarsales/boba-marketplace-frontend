@@ -167,100 +167,97 @@ export default function SellerListingsPage() {
         </div>
       )}
 
-      {/* Listings Table */}
-      <div className="card border border-white/10 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-white/10 bg-boba-panel">
-                <th className="text-left p-4 text-sm text-white/70 font-display font-bold uppercase tracking-wider">Card</th>
-                <th className="text-center p-4 text-sm text-white/70 font-display font-bold uppercase tracking-wider">Condition</th>
-                <th className="text-center p-4 text-sm text-white/70 font-display font-bold uppercase tracking-wider">Qty</th>
-                <th className="text-right p-4 text-sm text-white/70 font-display font-bold uppercase tracking-wider">Price</th>
-                <th className="text-center p-4 text-sm text-white/70 font-display font-bold uppercase tracking-wider">Status</th>
-                <th className="text-center p-4 text-sm text-white/70 font-display font-bold uppercase tracking-wider">Views</th>
-                <th className="text-right p-4 text-sm text-white/70 font-display font-bold uppercase tracking-wider">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loading ? (
-                <tr><td colSpan={7} className="p-8 text-center text-white/80 font-display">Loading...</td></tr>
-              ) : listings.length === 0 ? (
-                <tr><td colSpan={7} className="p-8 text-center text-white/60 font-display">
-                  No {activeFilter} listings — <Link href="/sell" className="text-hex hover:underline">create one</Link> or <Link href="/dashboard/sell/import-ebay" className="text-hex hover:underline">import from eBay</Link>
-                </td></tr>
-              ) : (
-                listings.map((listing) => (
-                  editingId === listing.id ? (
-                    <tr key={listing.id} className="border-b border-white/5 bg-hex/5">
-                      <td className="p-4 font-display font-bold text-white text-base">{listing.title}</td>
-                      <td className="p-4 text-center">
-                        <select value={editCondition} onChange={(e) => setEditCondition(e.target.value)} className="bg-white/5 border border-white/20 rounded px-2 py-1 text-white text-base">
-                          {["Mint","Near Mint","Lightly Played","Moderately Played","Heavily Played","Damaged","NM","LP","MP","HP"].map(c => <option key={c} value={c}>{c}</option>)}
-                        </select>
-                      </td>
-                      <td className="p-4 text-center">
-                        <input type="number" value={editQty} onChange={(e) => setEditQty(e.target.value)} className="bg-white/5 border border-white/20 rounded px-2 py-1 text-white text-base w-20 text-center" min="1" />
-                      </td>
-                      <td className="p-4 text-right">
-                        <input type="text" value={editPrice} onChange={(e) => setEditPrice(e.target.value)} className="bg-white/5 border border-white/20 rounded px-2 py-1 text-white text-base w-28 text-right" />
-                      </td>
-                      <td className="p-4 text-center">
-                        <span className={`badge text-sm ${STATUS_STYLES[listing.status] || "bg-white/10 text-white/40"}`}>
-                          {listing.status.toUpperCase()}
-                        </span>
-                      </td>
-                      <td className="p-4 text-center text-white/80 font-display">{listing.views}</td>
-                      <td className="p-4 text-right">
-                        <div className="flex items-center justify-end gap-2">
-                          <button onClick={saveEdit} className="text-base text-glow hover:text-glow/80 font-display font-bold uppercase tracking-wider">Save</button>
-                          <button onClick={() => setEditingId(null)} className="text-base text-white hover:text-super font-display font-bold uppercase tracking-wider">Cancel</button>
-                        </div>
-                      </td>
-                    </tr>
-                  ) : (
-                    <tr key={listing.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
-                      <td className="p-4">
-                        <div className="flex items-center gap-3">
-                          {listing.images?.[0]?.image_url || listing.card?.image_url ? (
-                            <img src={listing.images?.[0]?.image_url || listing.card?.image_url} alt="" className="w-10 h-14 object-cover rounded" />
-                          ) : (
-                            <div className="w-10 h-14 bg-white/5 rounded flex items-center justify-center text-white/50 text-sm">No img</div>
-                          )}
-                          <div>
-                            <p className="text-base font-display font-bold text-white">{listing.card?.name || listing.title}</p>
-                            {listing.card?.set_name && <p className="text-sm text-white/60">{listing.card.set_name}</p>}
-                          </div>
-                        </div>
-                      </td>
-                      <td className="p-4 text-center">
-                        <span className="badge bg-white/10 text-white/90">{listing.condition}</span>
-                      </td>
-                      <td className="p-4 text-center text-white/80 font-display">{listing.quantity_available}</td>
-                      <td className="p-4 text-right">
-                        <span className="text-lg font-display font-black text-super">
-                          ${(listing.price_cents / 100).toLocaleString("en-US", { minimumFractionDigits: 2 })}
-                        </span>
-                      </td>
-                      <td className="p-4 text-center">
-                        <span className={`badge text-sm ${STATUS_STYLES[listing.status] || "bg-white/10 text-white/40"}`}>
-                          {listing.status.toUpperCase()}
-                        </span>
-                      </td>
-                      <td className="p-4 text-center text-white/80 font-display">{listing.views}</td>
-                      <td className="p-4 text-right">
-                        <div className="flex items-center justify-end gap-2">
-                          <button onClick={() => handleEdit(listing)} className="text-base text-white hover:text-super font-display font-bold uppercase tracking-wider">Edit</button>
-                          <button onClick={() => handleDelete(listing.id)} className="text-base text-fire hover:text-fire font-display font-bold uppercase tracking-wider">Delete</button>
-                        </div>
-                      </td>
-                    </tr>
-                  )
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
+      {/* Listings Cards */}
+      <div className="space-y-3">
+        {loading ? (
+          <div className="card border border-white/10 p-8 text-center text-white/80 font-display font-bold text-lg">Loading...</div>
+        ) : listings.length === 0 ? (
+          <div className="card border border-white/10 p-8 text-center">
+            <p className="text-white/80 font-display font-bold text-lg">No {activeFilter} listings</p>
+            <p className="text-white/60 mt-2">
+              <Link href="/sell" className="text-hex hover:underline">Create one</Link> or <Link href="/dashboard/sell/import-ebay" className="text-hex hover:underline">import from eBay</Link>
+            </p>
+          </div>
+        ) : (
+          listings.map((listing) => (
+            editingId === listing.id ? (
+              <div key={listing.id} className="card border border-hex/30 p-5 bg-hex/5">
+                <div className="flex flex-wrap items-center gap-4">
+                  <p className="font-display font-bold text-white text-lg flex-1 min-w-[200px]">{listing.title}</p>
+                  <div className="flex items-center gap-2">
+                    <label className="text-white/70 text-sm font-display font-bold">Condition:</label>
+                    <select value={editCondition} onChange={(e) => setEditCondition(e.target.value)} className="bg-boba-dark border border-white/20 rounded-lg px-3 py-2 text-white text-base">
+                      {["Mint","Near Mint","Lightly Played","Moderately Played","Heavily Played","Damaged","NM","LP","MP","HP"].map(c => <option key={c} value={c}>{c}</option>)}
+                    </select>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <label className="text-white/70 text-sm font-display font-bold">Qty:</label>
+                    <input type="number" value={editQty} onChange={(e) => setEditQty(e.target.value)} className="bg-boba-dark border border-white/20 rounded-lg px-3 py-2 text-white text-base w-20 text-center" min="1" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <label className="text-white/70 text-sm font-display font-bold">Price:</label>
+                    <input type="text" value={editPrice} onChange={(e) => setEditPrice(e.target.value)} className="bg-boba-dark border border-white/20 rounded-lg px-3 py-2 text-white text-base w-28 text-right" />
+                  </div>
+                  <div className="flex items-center gap-3 ml-auto">
+                    <button onClick={saveEdit} className="btn-primary text-sm px-5 py-2">Save</button>
+                    <button onClick={() => setEditingId(null)} className="btn-secondary text-sm px-5 py-2">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div key={listing.id} className="card border border-white/10 hover:border-hex/30 transition-all">
+                <div className="flex items-center gap-5 p-5">
+                  {/* Card image + name */}
+                  <div className="flex items-center gap-4 flex-1 min-w-0">
+                    {listing.images?.[0]?.image_url || listing.card?.image_url ? (
+                      <img src={listing.images?.[0]?.image_url || listing.card?.image_url} alt="" className="w-12 h-16 object-cover rounded-lg flex-shrink-0" />
+                    ) : (
+                      <div className="w-12 h-16 bg-white/5 rounded-lg flex items-center justify-center text-white/50 text-sm flex-shrink-0">No img</div>
+                    )}
+                    <div className="min-w-0">
+                      <p className="text-lg font-display font-black text-white truncate">{listing.card?.name || listing.title}</p>
+                      {listing.card?.set_name && <p className="text-sm text-white/60 truncate">{listing.card.set_name}</p>}
+                    </div>
+                  </div>
+
+                  {/* Condition */}
+                  <div className="flex-shrink-0 text-center w-28">
+                    <p className="text-xs text-white/50 font-display uppercase tracking-wider mb-1">Condition</p>
+                    <span className="badge bg-white/10 text-white/90">{listing.condition}</span>
+                  </div>
+
+                  {/* Status */}
+                  <div className="flex-shrink-0 text-center w-28">
+                    <p className="text-xs text-white/50 font-display uppercase tracking-wider mb-1">Status</p>
+                    <span className={`badge text-sm ${STATUS_STYLES[listing.status] || "bg-white/10 text-white/40"}`}>
+                      {listing.status.toUpperCase()}
+                    </span>
+                  </div>
+
+                  {/* Price */}
+                  <div className="flex-shrink-0 text-right w-28">
+                    <p className="text-xs text-white/50 font-display uppercase tracking-wider mb-1">Price</p>
+                    <span className="text-xl font-display font-black text-super">
+                      ${(listing.price_cents / 100).toLocaleString("en-US", { minimumFractionDigits: 2 })}
+                    </span>
+                  </div>
+
+                  {/* Views */}
+                  <div className="flex-shrink-0 text-center w-20">
+                    <p className="text-xs text-white/50 font-display uppercase tracking-wider mb-1">Views</p>
+                    <p className="text-white/80 font-display font-bold">{listing.views}</p>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex-shrink-0 flex items-center gap-2 ml-2">
+                    <button onClick={() => handleEdit(listing)} className="text-sm text-white hover:text-super font-display font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border border-white/15 hover:border-super/50 transition-colors">Edit</button>
+                    <button onClick={() => handleDelete(listing.id)} className="text-sm text-fire hover:text-fire-light font-display font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border border-white/15 hover:border-fire/50 transition-colors">Delete</button>
+                  </div>
+                </div>
+              </div>
+            )
+          ))
+        )}
       </div>
 
       {/* Footer */}
