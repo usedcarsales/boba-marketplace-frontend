@@ -65,7 +65,7 @@ export default function DashboardPage() {
                 stat.value
               )}
             </p>
-            <p className="text-sm text-white/70 font-display uppercase tracking-wider mt-1">{stat.label}</p>
+            <p className="text-base text-white/70 font-display font-bold uppercase tracking-wider mt-1">{stat.label}</p>
           </div>
         ))}
       </div>
@@ -105,7 +105,7 @@ export default function DashboardPage() {
         <div className="text-center py-12">
           <span className="text-5xl block mb-4">📭</span>
           <p className="text-white/70 font-display text-lg">No activity yet</p>
-          <p className="text-white/20 text-sm mt-1">Your sales, purchases, and listing updates will appear here</p>
+          <p className="text-white/50 text-base mt-1">Your sales, purchases, and listing updates will appear here</p>
           <Link href="/sell" className="btn-primary mt-6 inline-block">List Your First Card</Link>
         </div>
       </div>

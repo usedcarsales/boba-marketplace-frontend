@@ -133,7 +133,7 @@ export default function PurchasesDashboard() {
       <div className="flex items-center gap-3 mb-2">
         <Link
           href="/dashboard"
-          className="text-white/60 hover:text-white transition-colors font-display uppercase tracking-wider text-sm"
+          className="text-white/80 hover:text-white transition-colors font-display font-bold uppercase tracking-wider text-base"
         >
           ← Dashboard
         </Link>
@@ -145,7 +145,7 @@ export default function PurchasesDashboard() {
         </div>
         <div className="text-right">
           <p className="text-3xl font-display font-black text-super">{purchases.length}</p>
-          <p className="text-white/60 text-sm font-display uppercase tracking-wider">Total Orders</p>
+          <p className="text-white/70 text-base font-display font-bold uppercase tracking-wider">Total Orders</p>
         </div>
       </div>
 
@@ -155,7 +155,7 @@ export default function PurchasesDashboard() {
           <button
             key={s}
             onClick={() => setFilter(s)}
-            className={`px-4 py-2 rounded-full font-display uppercase tracking-wider text-sm font-bold whitespace-nowrap transition-all ${
+            className={`px-5 py-2.5 rounded-full font-display font-bold uppercase tracking-wider text-base whitespace-nowrap transition-all ${
               filter === s
                 ? "bg-hex text-white"
                 : "bg-white/5 text-white/70 hover:bg-white/10"
@@ -213,7 +213,7 @@ export default function PurchasesDashboard() {
       ) : (
         <>
           {/* Desktop table header */}
-          <div className="hidden md:grid grid-cols-12 gap-4 px-5 mb-2 text-sm font-display font-bold uppercase tracking-wider text-white/70">
+          <div className="hidden md:grid grid-cols-12 gap-4 px-5 mb-2 text-base font-display font-bold uppercase tracking-wider text-white/80">
             <div className="col-span-1">Date</div>
             <div className="col-span-4">Card</div>
             <div className="col-span-2">Seller</div>
@@ -257,7 +257,7 @@ export default function PurchasesDashboard() {
                         <h3 className="text-base font-display font-bold text-white truncate">
                           {purchase.card?.name || purchase.listing_title}
                         </h3>
-                        <p className="text-sm text-white/40">
+                        <p className="text-base text-white/70">
                           {purchase.card?.set_name} · {purchase.listing_condition}
                         </p>
                         <p className="text-sm text-white/60 mt-0.5">
@@ -267,7 +267,7 @@ export default function PurchasesDashboard() {
                     </div>
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm text-white/40">
+                        <p className="text-base text-white/70">
                           Seller: <span className="text-white">{purchase.seller?.display_name || purchase.seller?.username || "—"}</span>
                         </p>
                         <p className="text-lg font-display font-black text-super">
@@ -275,7 +275,7 @@ export default function PurchasesDashboard() {
                         </p>
                       </div>
                       <span
-                        className={`px-3 py-1 rounded-full text-xs font-display font-bold uppercase ${
+                        className={`px-3 py-1 rounded-full text-sm font-display font-bold uppercase ${
                           STATUS_COLORS[purchase.status] || "bg-white/10 text-white/50"
                         }`}
                       >
@@ -287,7 +287,7 @@ export default function PurchasesDashboard() {
                         href={trackingUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-ice text-sm font-display uppercase tracking-wider hover:text-ice-light transition-colors"
+                        className="text-ice text-base font-display font-bold uppercase tracking-wider hover:text-ice-light transition-colors"
                       >
                         📦 Track Package →
                       </a>
@@ -298,7 +298,7 @@ export default function PurchasesDashboard() {
                         <button
                           onClick={() => handleConfirmDelivery(purchase.id)}
                           disabled={confirming === purchase.id}
-                          className="btn-secondary text-sm py-1.5 px-3 disabled:opacity-50"
+                          className="btn-secondary text-base py-2 px-4 disabled:opacity-50"
                         >
                           {confirming === purchase.id ? "Confirming..." : "✅ Confirm Delivery"}
                         </button>
@@ -314,7 +314,7 @@ export default function PurchasesDashboard() {
                       {canFeedback && (
                         <Link
                           href={`/dashboard/feedback/new?order=${purchase.id}`}
-                          className="btn-secondary text-sm py-1.5 px-3"
+                          className="btn-secondary text-base py-2 px-4"
                         >
                           ⭐ Feedback
                         </Link>
@@ -325,7 +325,7 @@ export default function PurchasesDashboard() {
                   {/* Desktop layout */}
                   <div className="hidden md:grid grid-cols-12 gap-4 items-center">
                     {/* Date */}
-                    <div className="col-span-1 text-sm text-white/40">
+                    <div className="col-span-1 text-base text-white/70">
                       {new Date(purchase.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
                     </div>
 
@@ -343,29 +343,29 @@ export default function PurchasesDashboard() {
                         </div>
                       )}
                       <div className="min-w-0">
-                        <p className="text-sm font-display font-bold text-white truncate">
+                        <p className="text-base font-display font-bold text-white truncate">
                           {purchase.card?.name || purchase.listing_title}
                         </p>
-                        <p className="text-sm text-white/70 truncate">
+                        <p className="text-base text-white/80 truncate">
                           {purchase.card?.set_name} · {purchase.listing_condition}
                         </p>
                       </div>
                     </div>
 
                     {/* Seller */}
-                    <div className="col-span-2 text-sm text-white/70 truncate">
+                    <div className="col-span-2 text-base text-white/80 truncate">
                       {purchase.seller?.display_name || purchase.seller?.username || "—"}
                     </div>
 
                     {/* Price */}
-                    <div className="col-span-1 text-sm font-display font-black text-super">
+                    <div className="col-span-1 text-base font-display font-black text-super">
                       ${(purchase.total_cents / 100).toFixed(2)}
                     </div>
 
                     {/* Status */}
                     <div className="col-span-1">
                       <span
-                        className={`px-2 py-1 rounded-full text-xs font-display font-bold uppercase whitespace-nowrap ${
+                        className={`px-2 py-1 rounded-full text-sm font-display font-bold uppercase whitespace-nowrap ${
                           STATUS_COLORS[purchase.status] || "bg-white/10 text-white/50"
                         }`}
                       >
@@ -380,14 +380,14 @@ export default function PurchasesDashboard() {
                           href={trackingUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-ice text-xs font-display uppercase tracking-wider hover:text-ice-light transition-colors"
+                          className="text-ice text-sm font-display font-bold uppercase tracking-wider hover:text-ice-light transition-colors"
                         >
                           📦 Track →
                         </a>
                       ) : purchase.status === "shipped" ? (
-                        <span className="text-white/60 text-sm">No tracking</span>
+                        <span className="text-white/80 text-base">No tracking</span>
                       ) : (
-                        <span className="text-white/60 text-sm">—</span>
+                        <span className="text-white/80 text-base">—</span>
                       )}
                     </div>
 
@@ -397,7 +397,7 @@ export default function PurchasesDashboard() {
                         <button
                           onClick={() => handleConfirmDelivery(purchase.id)}
                           disabled={confirming === purchase.id}
-                          className="btn-secondary text-xs py-1 px-2 disabled:opacity-50 whitespace-nowrap"
+                          className="btn-secondary text-base py-2 px-4 disabled:opacity-50 whitespace-nowrap"
                         >
                           {confirming === purchase.id ? "..." : "✅ Delivered"}
                         </button>
@@ -413,7 +413,7 @@ export default function PurchasesDashboard() {
                       {canFeedback && (
                         <Link
                           href={`/dashboard/feedback/new?order=${purchase.id}`}
-                          className="btn-secondary text-xs py-1 px-2 whitespace-nowrap"
+                          className="btn-secondary text-base py-2 px-4 whitespace-nowrap"
                         >
                           ⭐ Rate
                         </Link>

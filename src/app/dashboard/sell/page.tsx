@@ -140,7 +140,7 @@ export default function SellerListingsPage() {
       </div>
 
       {actionMsg && (
-        <div className="mb-4 p-3 rounded-lg bg-white/5 text-sm font-display">{actionMsg}</div>
+        <div className="mb-4 p-3 rounded-lg bg-white/5 text-base font-display font-bold">{actionMsg}</div>
       )}
 
       {/* Filter Tabs */}
@@ -149,7 +149,7 @@ export default function SellerListingsPage() {
           <button
             key={f.key}
             onClick={() => setActiveFilter(f.key)}
-            className={`px-5 py-2 rounded-full font-display text-sm uppercase tracking-wider font-bold transition-all cursor-pointer ${
+            className={`px-6 py-2.5 rounded-full font-display text-base font-bold uppercase tracking-wider transition-all cursor-pointer ${
               activeFilter === f.key
                 ? "bg-gradient-to-r from-hex to-glow text-white"
                 : "bg-boba-gray border border-white/15 text-white hover:text-super hover:border-hex/30 font-bold"
@@ -193,28 +193,28 @@ export default function SellerListingsPage() {
                 listings.map((listing) => (
                   editingId === listing.id ? (
                     <tr key={listing.id} className="border-b border-white/5 bg-hex/5">
-                      <td className="p-4 font-display font-bold text-white">{listing.title}</td>
+                      <td className="p-4 font-display font-bold text-white text-base">{listing.title}</td>
                       <td className="p-4 text-center">
-                        <select value={editCondition} onChange={(e) => setEditCondition(e.target.value)} className="bg-white/5 border border-white/20 rounded px-2 py-1 text-white text-sm">
+                        <select value={editCondition} onChange={(e) => setEditCondition(e.target.value)} className="bg-white/5 border border-white/20 rounded px-2 py-1 text-white text-base">
                           {["Mint","Near Mint","Lightly Played","Moderately Played","Heavily Played","Damaged","NM","LP","MP","HP"].map(c => <option key={c} value={c}>{c}</option>)}
                         </select>
                       </td>
                       <td className="p-4 text-center">
-                        <input type="number" value={editQty} onChange={(e) => setEditQty(e.target.value)} className="bg-white/5 border border-white/20 rounded px-2 py-1 text-white text-sm w-16 text-center" min="1" />
+                        <input type="number" value={editQty} onChange={(e) => setEditQty(e.target.value)} className="bg-white/5 border border-white/20 rounded px-2 py-1 text-white text-base w-20 text-center" min="1" />
                       </td>
                       <td className="p-4 text-right">
-                        <input type="text" value={editPrice} onChange={(e) => setEditPrice(e.target.value)} className="bg-white/5 border border-white/20 rounded px-2 py-1 text-white text-sm w-24 text-right" />
+                        <input type="text" value={editPrice} onChange={(e) => setEditPrice(e.target.value)} className="bg-white/5 border border-white/20 rounded px-2 py-1 text-white text-base w-28 text-right" />
                       </td>
                       <td className="p-4 text-center">
-                        <span className={`badge text-xs ${STATUS_STYLES[listing.status] || "bg-white/10 text-white/40"}`}>
+                        <span className={`badge text-sm ${STATUS_STYLES[listing.status] || "bg-white/10 text-white/40"}`}>
                           {listing.status.toUpperCase()}
                         </span>
                       </td>
                       <td className="p-4 text-center text-white/80 font-display">{listing.views}</td>
                       <td className="p-4 text-right">
                         <div className="flex items-center justify-end gap-2">
-                          <button onClick={saveEdit} className="text-sm text-glow hover:text-glow/80 font-display font-bold uppercase tracking-wider">Save</button>
-                          <button onClick={() => setEditingId(null)} className="text-sm text-white hover:text-super font-display font-bold uppercase tracking-wider">Cancel</button>
+                          <button onClick={saveEdit} className="text-base text-glow hover:text-glow/80 font-display font-bold uppercase tracking-wider">Save</button>
+                          <button onClick={() => setEditingId(null)} className="text-base text-white hover:text-super font-display font-bold uppercase tracking-wider">Cancel</button>
                         </div>
                       </td>
                     </tr>
@@ -225,11 +225,11 @@ export default function SellerListingsPage() {
                           {listing.images?.[0]?.image_url || listing.card?.image_url ? (
                             <img src={listing.images?.[0]?.image_url || listing.card?.image_url} alt="" className="w-10 h-14 object-cover rounded" />
                           ) : (
-                            <div className="w-10 h-14 bg-white/5 rounded flex items-center justify-center text-white/20 text-xs">No img</div>
+                            <div className="w-10 h-14 bg-white/5 rounded flex items-center justify-center text-white/50 text-sm">No img</div>
                           )}
                           <div>
                             <p className="text-base font-display font-bold text-white">{listing.card?.name || listing.title}</p>
-                            {listing.card?.set_name && <p className="text-xs text-white/30">{listing.card.set_name}</p>}
+                            {listing.card?.set_name && <p className="text-sm text-white/60">{listing.card.set_name}</p>}
                           </div>
                         </div>
                       </td>
@@ -243,15 +243,15 @@ export default function SellerListingsPage() {
                         </span>
                       </td>
                       <td className="p-4 text-center">
-                        <span className={`badge text-xs ${STATUS_STYLES[listing.status] || "bg-white/10 text-white/40"}`}>
+                        <span className={`badge text-sm ${STATUS_STYLES[listing.status] || "bg-white/10 text-white/40"}`}>
                           {listing.status.toUpperCase()}
                         </span>
                       </td>
                       <td className="p-4 text-center text-white/80 font-display">{listing.views}</td>
                       <td className="p-4 text-right">
                         <div className="flex items-center justify-end gap-2">
-                          <button onClick={() => handleEdit(listing)} className="text-sm text-white hover:text-super font-display font-bold uppercase tracking-wider">Edit</button>
-                          <button onClick={() => handleDelete(listing.id)} className="text-sm text-fire/70 hover:text-fire font-display font-bold uppercase tracking-wider">Delete</button>
+                          <button onClick={() => handleEdit(listing)} className="text-base text-white hover:text-super font-display font-bold uppercase tracking-wider">Edit</button>
+                          <button onClick={() => handleDelete(listing.id)} className="text-base text-fire hover:text-fire font-display font-bold uppercase tracking-wider">Delete</button>
                         </div>
                       </td>
                     </tr>
@@ -268,7 +268,7 @@ export default function SellerListingsPage() {
         <p className="text-sm text-white/20 font-display">
           Showing {listings.length} {activeFilter} listing{listings.length !== 1 ? "s" : ""}
         </p>
-        <Link href="/dashboard/inventory" className="btn-secondary text-sm px-4 py-2">
+        <Link href="/dashboard/inventory" className="btn-secondary text-base px-5 py-2.5">
           📦 Bulk Actions →
         </Link>
       </div>

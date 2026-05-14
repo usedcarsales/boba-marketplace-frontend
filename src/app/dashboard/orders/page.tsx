@@ -50,7 +50,7 @@ interface OrderItem {
 }
 
 const STATUS_COLORS: Record<string, string> = {
-  pending: "bg-white/10 text-white/50",
+  pending: "bg-white/10 text-white/80",
   authorized: "bg-hex/20 text-hex",
   paid: "bg-super/20 text-super",
   shipped: "bg-ice/20 text-ice",
@@ -151,7 +151,7 @@ export default function SellerOrdersPage() {
           <button
             key={s}
             onClick={() => setFilter(s)}
-            className={`px-4 py-2 rounded-full font-display uppercase tracking-wider text-sm font-bold whitespace-nowrap transition-all ${
+            className={`px-5 py-2.5 rounded-full font-display font-bold uppercase tracking-wider text-base whitespace-nowrap transition-all ${
               filter === s ? "bg-hex text-white" : "bg-white/5 text-white/70 hover:bg-white/10"
             }`}
           >
@@ -197,12 +197,12 @@ export default function SellerOrdersPage() {
                     <h3 className="text-lg font-display font-bold text-white truncate">
                       {order.card?.name || order.listing_title}
                     </h3>
-                    <p className="text-sm text-white/40">
+                    <p className="text-base text-white/70">
                       {order.card?.set_name} · {order.listing_condition} · Qty: {order.quantity}
                     </p>
                   </div>
                   <div className="text-right">
-                    <span className={`px-3 py-1 rounded-full text-xs font-display font-bold uppercase ${STATUS_COLORS[order.status] || "bg-white/10 text-white/50"}`}>
+                    <span className={`px-3 py-1 rounded-full text-sm font-display font-bold uppercase ${STATUS_COLORS[order.status] || "bg-white/10 text-white/80"}`}>
                       {order.status}
                     </span>
                     <p className="text-lg font-display font-black text-super mt-1">
@@ -218,7 +218,7 @@ export default function SellerOrdersPage() {
                 {isExpanded && (
                   <div className="mt-4 pt-4 border-t border-white/10 space-y-4">
                     {/* Timestamps */}
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-base">
                       <div>
                         <span className="text-white/60 block">Ordered</span>
                         <span className="text-white">{new Date(order.created_at).toLocaleDateString()}</span>
@@ -248,7 +248,7 @@ export default function SellerOrdersPage() {
 
                     {/* Ship To Address */}
                     <div className="card border border-white/10 p-4">
-                      <h4 className="text-sm font-display font-bold text-white/50 uppercase tracking-wider mb-2">Ship To</h4>
+                      <h4 className="text-base font-display font-bold text-white/70 uppercase tracking-wider mb-2">Ship To</h4>
                       <p className="text-white font-bold">{order.ship_to.name}</p>
                       <p className="text-white/90">{order.ship_to.address1}</p>
                       {order.ship_to.address2 && <p className="text-white/90">{order.ship_to.address2}</p>}
@@ -260,27 +260,27 @@ export default function SellerOrdersPage() {
                     {/* Buyer note */}
                     {order.buyer_note && (
                       <div className="bg-ice/5 border border-ice/20 rounded-boba p-3">
-                        <span className="text-ice text-sm font-display font-bold">Buyer Note: </span>
-                        <span className="text-white/70 text-sm">{order.buyer_note}</span>
+                        <span className="text-ice text-base font-display font-bold">Buyer Note: </span>
+                        <span className="text-white/80 text-base">{order.buyer_note}</span>
                       </div>
                     )}
 
                     {/* Tracking info */}
                     {order.tracking_number && (
                       <div className="flex items-center gap-2">
-                        <span className="text-white/60 text-sm">Tracking:</span>
+                        <span className="text-white/80 text-base">Tracking:</span>
                         <span className="text-white font-mono">{order.tracking_number}</span>
-                        <span className="text-white/60 text-sm">({order.tracking_carrier?.toUpperCase()})</span>
+                        <span className="text-white/80 text-base">({order.tracking_carrier?.toUpperCase()})</span>
                       </div>
                     )}
 
                     {/* Payout status */}
                     <div className="flex items-center gap-2">
-                      <span className="text-white/60 text-sm">Payout:</span>
+                      <span className="text-white/80 text-base">Payout:</span>
                       {order.payout_released ? (
-                        <span className="text-glow text-sm">✅ Released — ${(order.seller_payout_cents / 100).toFixed(2)}</span>
+                        <span className="text-glow text-base">✅ Released — ${(order.seller_payout_cents / 100).toFixed(2)}</span>
                       ) : (
-                        <span className="text-white/70 text-sm">⏳ Held until delivery confirmed</span>
+                        <span className="text-white/80 text-base">⏳ Held until delivery confirmed</span>
                       )}
                     </div>
 
@@ -300,11 +300,11 @@ export default function SellerOrdersPage() {
                         <h4 className="font-display font-bold text-white">Enter Shipping Details</h4>
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <label className="text-sm text-white/70 block mb-1">Carrier</label>
+                            <label className="text-base text-white/70 block mb-1">Carrier</label>
                             <select
                               value={shipForm.carrier}
                               onChange={(e) => setShipForm({ ...shipForm, carrier: e.target.value })}
-                              className="w-full bg-boba-dark border border-white/15 rounded-boba px-3 py-2 text-white text-sm"
+                              className="w-full bg-boba-dark border border-white/15 rounded-boba px-4 py-3 text-white text-base"
                             >
                               <option value="usps">USPS</option>
                               <option value="ups">UPS</option>
@@ -312,14 +312,14 @@ export default function SellerOrdersPage() {
                             </select>
                           </div>
                           <div>
-                            <label className="text-sm text-white/70 block mb-1">
+                            <label className="text-base text-white/70 block mb-1">
                               Tracking # {order.subtotal_cents >= 2000 ? "(required)" : "(optional)"}
                             </label>
                             <input
                               type="text"
                               value={shipForm.tracking}
                               onChange={(e) => setShipForm({ ...shipForm, tracking: e.target.value })}
-                              className="w-full bg-boba-dark border border-white/15 rounded-boba px-3 py-2 text-white text-sm"
+                              className="w-full bg-boba-dark border border-white/15 rounded-boba px-4 py-3 text-white text-base"
                               placeholder="9400..."
                             />
                           </div>
@@ -337,7 +337,7 @@ export default function SellerOrdersPage() {
                     {(order.status === "paid" || order.status === "authorized") && (
                       <button
                         onClick={() => window.print()}
-                        className="text-sm text-hex hover:text-hex-light font-display uppercase tracking-wider"
+                        className="text-base text-hex hover:text-hex-light font-display font-bold uppercase tracking-wider"
                       >
                         🖨️ Print Packing Slip
                       </button>
