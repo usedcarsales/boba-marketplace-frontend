@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import StatsBanner from "@/components/StatsBanner";
 
 const SETS = [
   { name: "Griffey Edition", count: "10,004", color: "from-glow/20 to-transparent" },
@@ -181,6 +182,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Live Stats Banner */}
+      <StatsBanner />
 
       {/* Weapon divider */}
       <div className="flex h-2 overflow-hidden">
