@@ -120,7 +120,7 @@ export default function SellerListingsPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div className="max-w-screen-xl mx-auto px-6 sm:px-8 lg:px-12 py-12">
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-5xl font-display font-black text-white">My Listings</h1>
@@ -181,77 +181,77 @@ export default function SellerListingsPage() {
         ) : (
           listings.map((listing) => (
             editingId === listing.id ? (
-              <div key={listing.id} className="card border border-hex/30 p-5 bg-hex/5">
-                <div className="flex flex-wrap items-center gap-4">
-                  <p className="font-display font-bold text-white text-lg flex-1 min-w-[200px]">{listing.title}</p>
-                  <div className="flex items-center gap-2">
-                    <label className="text-white/70 text-sm font-display font-bold">Condition:</label>
-                    <select value={editCondition} onChange={(e) => setEditCondition(e.target.value)} className="bg-boba-dark border border-white/20 rounded-lg px-3 py-2 text-white text-base">
+              <div key={listing.id} className="card border border-hex/30 p-6 bg-hex/5">
+                <div className="flex flex-wrap items-center gap-5">
+                  <p className="font-display font-black text-white text-2xl flex-1 min-w-[240px]">{listing.title}</p>
+                  <div className="flex items-center gap-3">
+                    <label className="text-white/80 text-base font-display font-bold">Condition:</label>
+                    <select value={editCondition} onChange={(e) => setEditCondition(e.target.value)} className="bg-boba-dark border border-white/20 rounded-lg px-4 py-2.5 text-white text-lg">
                       {["Mint","Near Mint","Lightly Played","Moderately Played","Heavily Played","Damaged","NM","LP","MP","HP"].map(c => <option key={c} value={c}>{c}</option>)}
                     </select>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <label className="text-white/70 text-sm font-display font-bold">Qty:</label>
-                    <input type="number" value={editQty} onChange={(e) => setEditQty(e.target.value)} className="bg-boba-dark border border-white/20 rounded-lg px-3 py-2 text-white text-base w-20 text-center" min="1" />
+                  <div className="flex items-center gap-3">
+                    <label className="text-white/80 text-base font-display font-bold">Qty:</label>
+                    <input type="number" value={editQty} onChange={(e) => setEditQty(e.target.value)} className="bg-boba-dark border border-white/20 rounded-lg px-4 py-2.5 text-white text-lg w-24 text-center" min="1" />
                   </div>
-                  <div className="flex items-center gap-2">
-                    <label className="text-white/70 text-sm font-display font-bold">Price:</label>
-                    <input type="text" value={editPrice} onChange={(e) => setEditPrice(e.target.value)} className="bg-boba-dark border border-white/20 rounded-lg px-3 py-2 text-white text-base w-28 text-right" />
+                  <div className="flex items-center gap-3">
+                    <label className="text-white/80 text-base font-display font-bold">Price:</label>
+                    <input type="text" value={editPrice} onChange={(e) => setEditPrice(e.target.value)} className="bg-boba-dark border border-white/20 rounded-lg px-4 py-2.5 text-white text-lg w-32 text-right" />
                   </div>
                   <div className="flex items-center gap-3 ml-auto">
-                    <button onClick={saveEdit} className="btn-primary text-sm px-5 py-2">Save</button>
-                    <button onClick={() => setEditingId(null)} className="btn-secondary text-sm px-5 py-2">Cancel</button>
+                    <button onClick={saveEdit} className="btn-primary text-base px-6 py-2.5">Save</button>
+                    <button onClick={() => setEditingId(null)} className="btn-secondary text-base px-6 py-2.5">Cancel</button>
                   </div>
                 </div>
               </div>
             ) : (
               <div key={listing.id} className="card border border-white/10 hover:border-hex/30 transition-all">
-                <div className="flex items-center gap-5 p-5">
+                <div className="flex items-center gap-6 p-6">
                   {/* Card image + name */}
-                  <div className="flex items-center gap-4 flex-1 min-w-0">
+                  <div className="flex items-center gap-5 flex-1 min-w-0">
                     {listing.images?.[0]?.image_url || listing.card?.image_url ? (
-                      <img src={listing.images?.[0]?.image_url || listing.card?.image_url} alt="" className="w-12 h-16 object-cover rounded-lg flex-shrink-0" />
+                      <img src={listing.images?.[0]?.image_url || listing.card?.image_url} alt="" className="w-16 h-22 object-cover rounded-lg flex-shrink-0 shadow-md" />
                     ) : (
-                      <div className="w-12 h-16 bg-white/5 rounded-lg flex items-center justify-center text-white/50 text-sm flex-shrink-0">No img</div>
+                      <div className="w-16 h-22 bg-white/5 rounded-lg flex items-center justify-center text-white/50 text-base flex-shrink-0">No img</div>
                     )}
                     <div className="min-w-0">
-                      <p className="text-lg font-display font-black text-white truncate">{listing.card?.name || listing.title}</p>
-                      {listing.card?.set_name && <p className="text-sm text-white/60 truncate">{listing.card.set_name}</p>}
+                      <p className="text-2xl font-display font-black text-white truncate leading-tight">{listing.card?.name || listing.title}</p>
+                      {listing.card?.set_name && <p className="text-base text-white/60 truncate mt-0.5">{listing.card.set_name}</p>}
                     </div>
                   </div>
 
                   {/* Condition */}
-                  <div className="flex-shrink-0 text-center w-28">
-                    <p className="text-xs text-white/50 font-display uppercase tracking-wider mb-1">Condition</p>
-                    <span className="badge bg-white/10 text-white/90">{listing.condition}</span>
+                  <div className="flex-shrink-0 text-center w-32">
+                    <p className="text-sm text-white/50 font-display font-bold uppercase tracking-wider mb-1">Condition</p>
+                    <span className="badge bg-white/10 text-white/90 text-base px-4 py-1.5">{listing.condition}</span>
                   </div>
 
                   {/* Status */}
-                  <div className="flex-shrink-0 text-center w-28">
-                    <p className="text-xs text-white/50 font-display uppercase tracking-wider mb-1">Status</p>
-                    <span className={`badge text-sm ${STATUS_STYLES[listing.status] || "bg-white/10 text-white/40"}`}>
+                  <div className="flex-shrink-0 text-center w-32">
+                    <p className="text-sm text-white/50 font-display font-bold uppercase tracking-wider mb-1">Status</p>
+                    <span className={`badge text-base px-4 py-1.5 ${STATUS_STYLES[listing.status] || "bg-white/10 text-white/40"}`}>
                       {listing.status.toUpperCase()}
                     </span>
                   </div>
 
                   {/* Price */}
-                  <div className="flex-shrink-0 text-right w-28">
-                    <p className="text-xs text-white/50 font-display uppercase tracking-wider mb-1">Price</p>
-                    <span className="text-xl font-display font-black text-super">
+                  <div className="flex-shrink-0 text-right w-32">
+                    <p className="text-sm text-white/50 font-display font-bold uppercase tracking-wider mb-1">Price</p>
+                    <span className="text-2xl font-display font-black text-super">
                       ${(listing.price_cents / 100).toLocaleString("en-US", { minimumFractionDigits: 2 })}
                     </span>
                   </div>
 
                   {/* Views */}
-                  <div className="flex-shrink-0 text-center w-20">
-                    <p className="text-xs text-white/50 font-display uppercase tracking-wider mb-1">Views</p>
-                    <p className="text-white/80 font-display font-bold">{listing.views}</p>
+                  <div className="flex-shrink-0 text-center w-24">
+                    <p className="text-sm text-white/50 font-display font-bold uppercase tracking-wider mb-1">Views</p>
+                    <p className="text-xl text-white/90 font-display font-bold">{listing.views}</p>
                   </div>
 
                   {/* Actions */}
-                  <div className="flex-shrink-0 flex items-center gap-2 ml-2">
-                    <button onClick={() => handleEdit(listing)} className="text-sm text-white hover:text-super font-display font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border border-white/15 hover:border-super/50 transition-colors">Edit</button>
-                    <button onClick={() => handleDelete(listing.id)} className="text-sm text-fire hover:text-fire-light font-display font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border border-white/15 hover:border-fire/50 transition-colors">Delete</button>
+                  <div className="flex-shrink-0 flex items-center gap-3 ml-2">
+                    <button onClick={() => handleEdit(listing)} className="text-base text-white hover:text-super font-display font-bold uppercase tracking-wider px-4 py-2.5 rounded-lg border border-white/20 hover:border-super/50 transition-colors">Edit</button>
+                    <button onClick={() => handleDelete(listing.id)} className="text-base text-fire hover:text-fire-light font-display font-bold uppercase tracking-wider px-4 py-2.5 rounded-lg border border-white/20 hover:border-fire/50 transition-colors">Delete</button>
                   </div>
                 </div>
               </div>
