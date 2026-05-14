@@ -68,9 +68,9 @@ export default function DocsPage() {
         <div className="card border border-super/20 p-6 bg-super/5 space-y-3">
           <p className="text-white/70">Every purchase on BoBA Trader is protected:</p>
           <ul className="text-white/60 space-y-2">
-            <li>✅ <strong className="text-white">Authorization-first payments</strong> — your card isn't charged until the seller ships</li>
+            <li>✅ <strong className="text-white">Authorization-first payments</strong> — your card isn&apos;t charged until the seller ships</li>
             <li>✅ <strong className="text-white">7-day dispute window</strong> after delivery for condition/accuracy issues</li>
-            <li>✅ <strong className="text-white">Full refund</strong> if the card isn't as described or arrives damaged</li>
+            <li>✅ <strong className="text-white">Full refund</strong> if the card isn&apos;t as described or arrives damaged</li>
             <li>✅ <strong className="text-white">Auto-refund</strong> if the seller never ships within 7 days</li>
           </ul>
           <p className="text-white/40 text-sm mt-4">See our <Link href="/terms" className="text-hex hover:text-super">Terms of Service</Link> for full details.</p>

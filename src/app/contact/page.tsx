@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Contact Us — BoBA Trader",
-  description: "Get in touch with BoBA Trader. Questions, support, partnerships — we're here to help.",
+  description: "Get in touch with BoBA Trader. Questions, support, partnerships — we are here to help.",
 };
 
 export default function ContactPage() {
