@@ -125,7 +125,7 @@ export default function HomePage() {
                   <span className="text-white font-display font-black text-3xl leading-none">B</span>
                 </div>
                 <div>
-                  <h2 className="text-base font-display text-white/50 uppercase tracking-[0.3em]">The Trading Platform For</h2>
+                  <h2 className="text-base font-display text-white/70 uppercase tracking-[0.3em]">The Trading Platform For</h2>
                   <h1 className="text-3xl font-display font-black text-white uppercase tracking-wider">
                     Bo Jackson Battle Arena™ <span className="text-gradient-hex-glow">Cards</span>
                   </h1>
@@ -137,7 +137,7 @@ export default function HomePage() {
                 <span className="text-gradient-hex-glow">Bo Jackson</span><br />
                 <span className="text-gradient-hex-glow">Battle Arena</span>™ Cards
               </h1>
-              <p className="text-xl text-white/50 mb-10 max-w-lg font-body leading-relaxed">
+              <p className="text-xl text-white/70 mb-10 max-w-lg font-body leading-relaxed">
                 The #1 independent marketplace for Bo Jackson Battle Arena™ trading cards.
                 Browse 17,236 cards across every set, parallel, and weapon type.
               </p>

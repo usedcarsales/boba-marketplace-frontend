@@ -30,6 +30,11 @@
     font-family: 'Saira Extra Condensed', system-ui, sans-serif;
     text-transform: uppercase;
     letter-spacing: 0.03em;
+    font-weight: 900;
+  }
+
+  /* Minimum weight for Saira — anything below 700 looks thin/blurry on dark */
+  .font-display {
     font-weight: 800;
   }
 
@@ -43,6 +48,17 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+  }
+
+  /* Ensure Saira display text is crisp on dark backgrounds */
+  .font-display {
+    font-weight: 800;
+    letter-spacing: 0.02em;
+  }
+
+  /* Subtle text shadow for legibility on dark backgrounds */
+  h1, h2, h3, h4, h5, h6, .font-display {
+    text-shadow: 0 0 1px rgba(255,255,255,0.15);
   }
 }
 
@@ -80,7 +96,7 @@
   }
 
   .badge {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider;
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-black uppercase tracking-wider;
     font-family: 'Saira Extra Condensed', system-ui, sans-serif;
   }
 

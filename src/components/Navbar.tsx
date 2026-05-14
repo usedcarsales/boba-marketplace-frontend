@@ -187,13 +187,13 @@ export function Navbar() {
 
           {/* Nav Links — Desktop */}
           <div className="hidden md:flex items-center gap-5">
-            <Link href="/browse" className="text-white/80 hover:text-white transition-colors font-display text-base uppercase tracking-wider font-bold">
+            <Link href="/browse" className="text-white hover:text-super transition-colors font-display text-lg uppercase tracking-wider font-black">
               Browse
             </Link>
-            <Link href="/sell" className="text-white/80 hover:text-white transition-colors font-display text-base uppercase tracking-wider font-bold">
+            <Link href="/sell" className="text-white hover:text-super transition-colors font-display text-lg uppercase tracking-wider font-black">
               Sell
             </Link>
-            <Link href="/cart" className="text-white/80 hover:text-white transition-colors font-display text-base uppercase tracking-wider font-bold relative">
+            <Link href="/cart" className="text-white hover:text-super transition-colors font-display text-lg uppercase tracking-wider font-black relative">
               🛒
             </Link>
 
@@ -203,10 +203,10 @@ export function Navbar() {
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
                   className="flex items-center gap-2 bg-white/10 hover:bg-white/20 rounded-full px-4 py-2 transition-colors"
                 >
-                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-hex to-glow flex items-center justify-center text-white font-display font-bold text-sm">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-hex to-glow flex items-center justify-center text-white font-display font-black text-base">
                     {(user.display_name || user.username || "?")[0].toUpperCase()}
                   </div>
-                  <span className="text-white font-display text-sm font-bold uppercase tracking-wider">
+                  <span className="text-white font-display text-base font-black uppercase tracking-wider">
                     {user.display_name || user.username}
                   </span>
                   <svg className="w-4 h-4 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -216,26 +216,26 @@ export function Navbar() {
 
                 {userMenuOpen && (
                   <div className="absolute right-0 top-full mt-2 w-48 bg-boba-panel border border-white/10 rounded-boba shadow-2xl overflow-hidden z-50">
-                    <Link href="/dashboard" onClick={() => setUserMenuOpen(false)} className="block px-4 py-3 text-sm text-white/70 hover:bg-white/5 hover:text-white font-display uppercase tracking-wider">
+                    <Link href="/dashboard" onClick={() => setUserMenuOpen(false)} className="block px-4 py-3 text-base text-white hover:bg-white/10 hover:text-super font-display font-bold uppercase tracking-wider">
                       📊 Dashboard
                     </Link>
-                    <Link href="/dashboard/sell" onClick={() => setUserMenuOpen(false)} className="block px-4 py-3 text-sm text-white/70 hover:bg-white/5 hover:text-white font-display uppercase tracking-wider">
+                    <Link href="/dashboard/sell" onClick={() => setUserMenuOpen(false)} className="block px-4 py-3 text-base text-white hover:bg-white/10 hover:text-super font-display font-bold uppercase tracking-wider">
                       📋 My Listings
                     </Link>
-                    <Link href="/dashboard/inventory" onClick={() => setUserMenuOpen(false)} className="block px-4 py-3 text-sm text-white/70 hover:bg-white/5 hover:text-white font-display uppercase tracking-wider">
+                    <Link href="/dashboard/inventory" onClick={() => setUserMenuOpen(false)} className="block px-4 py-3 text-base text-white hover:bg-white/10 hover:text-super font-display font-bold uppercase tracking-wider">
                       📋 Inventory Manager
                     </Link>
-                    <Link href="/dashboard/purchases" onClick={() => setUserMenuOpen(false)} className="block px-4 py-3 text-sm text-white/70 hover:bg-white/5 hover:text-white font-display uppercase tracking-wider">
+                    <Link href="/dashboard/purchases" onClick={() => setUserMenuOpen(false)} className="block px-4 py-3 text-base text-white hover:bg-white/10 hover:text-super font-display font-bold uppercase tracking-wider">
                       🛍️ My Purchases
                     </Link>
-                    <Link href="/dashboard/orders" onClick={() => setUserMenuOpen(false)} className="block px-4 py-3 text-sm text-white/70 hover:bg-white/5 hover:text-white font-display uppercase tracking-wider">
+                    <Link href="/dashboard/orders" onClick={() => setUserMenuOpen(false)} className="block px-4 py-3 text-base text-white hover:bg-white/10 hover:text-super font-display font-bold uppercase tracking-wider">
                       📦 Sales / Orders
                     </Link>
-                    <Link href="/dashboard/profile" onClick={() => setUserMenuOpen(false)} className="block px-4 py-3 text-sm text-white/70 hover:bg-white/5 hover:text-white font-display uppercase tracking-wider">
+                    <Link href="/dashboard/profile" onClick={() => setUserMenuOpen(false)} className="block px-4 py-3 text-base text-white hover:bg-white/10 hover:text-super font-display font-bold uppercase tracking-wider">
                       👤 Profile
                     </Link>
                     <div className="border-t border-white/10" />
-                    <button onClick={handleLogout} className="block w-full text-left px-4 py-3 text-sm text-red-400 hover:bg-red-500/10 font-display uppercase tracking-wider">
+                    <button onClick={handleLogout} className="block w-full text-left px-4 py-3 text-base text-red-400 hover:bg-red-500/10 font-display font-bold uppercase tracking-wider">
                       🚪 Sign Out
                     </button>
                   </div>
@@ -255,7 +255,7 @@ export function Navbar() {
           </div>
 
           {/* Mobile menu button */}
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-white/60 hover:text-white">
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-white hover:text-super">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {mobileMenuOpen ? (
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -279,12 +279,12 @@ export function Navbar() {
               />
             </form>
             <div className="flex flex-col gap-3">
-              <Link href="/browse" className="text-white/80 hover:text-white font-display uppercase tracking-wider font-bold text-sm">Browse</Link>
-              <Link href="/sell" className="text-white/80 hover:text-white font-display uppercase tracking-wider font-bold text-sm">Sell</Link>
-              <Link href="/cart" className="text-white/80 hover:text-white font-display uppercase tracking-wider font-bold text-sm">🛒 Cart</Link>
+              <Link href="/browse" className="text-white hover:text-super font-display font-bold text-base uppercase tracking-wider">Browse</Link>
+              <Link href="/sell" className="text-white hover:text-super font-display font-bold text-base uppercase tracking-wider">Sell</Link>
+              <Link href="/cart" className="text-white hover:text-super font-display font-bold text-base uppercase tracking-wider">🛒 Cart</Link>
               {user ? (
                 <>
-                  <Link href="/dashboard" className="text-white/80 hover:text-white font-display uppercase tracking-wider font-bold text-sm">📊 Dashboard</Link>
+                  <Link href="/dashboard" className="text-white hover:text-super font-display font-bold text-base uppercase tracking-wider">📊 Dashboard</Link>
                   <button onClick={handleLogout} className="text-left text-red-400 font-display uppercase tracking-wider font-bold text-sm">🚪 Sign Out</button>
                 </>
               ) : (
