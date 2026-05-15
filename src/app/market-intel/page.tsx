@@ -72,7 +72,7 @@ export default function MarketIntelPage() {
   const priced = cards.filter(c => c.last_sale_price);
   const avgPrice = priced.reduce((a, c) => a + c.last_sale_price!, 0) / (priced.length || 1);
   const highSale = cards.reduce((m, c) => Math.max(m, c.last_sale_price || 0), 0);
-  const sets = [...new Set(cards.map(c => c.set_name).filter(Boolean))];
+  const sets = Array.from(new Set(cards.map(c => c.set_name).filter(Boolean) as string[]));
 
   const trending = cards.filter(c => c.sales_last_30d > 0).sort((a, b) => b.sales_last_30d - a.sales_last_30d).slice(0, 10);
 
