@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { API_BASE, apiFetch } from "@/lib/api";
+import { API_BASE } from "@/lib/api";
 
 interface User {
   id: string;
@@ -55,21 +55,25 @@ export default function AdminPage() {
 
     try {
       // Fetch users
-      const usersRes = await apiFetch(`${API_BASE}/api/admin/users?limit=100`);
+      const usersRes = await fetch(`${API_BASE}/api/admin/users?limit=100`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       if (usersRes.ok) {
         const usersData = await usersRes.json();
         setUsers(usersData.users || []);
       }
 
       // Fetch orders
-      const ordersRes = await apiFetch(`${API_BASE}/api/admin/orders?limit=50`);
+      const ordersRes = await fetch(`${API_BASE}/api/admin/orders?limit=50`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       if (ordersRes.ok) {
         const ordersData = await ordersRes.json();
         setOrders(ordersData.orders || []);
       }
 
       // Fetch stats
-      const statsRes = await apiFetch(`${API_BASE}/api/marketplace/stats`);
+      const statsRes = await fetch(`${API_BASE}/api/marketplace/stats`);
       if (statsRes.ok) {
         const statsData = await statsRes.json();
         setStats({
