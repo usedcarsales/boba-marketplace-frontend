@@ -190,6 +190,9 @@ export function Navbar() {
             <Link href="/browse" className="text-white hover:text-super transition-colors font-display text-lg uppercase tracking-wider font-black">
               Browse
             </Link>
+            <Link href="/market-intel" className="text-white hover:text-super transition-colors font-display text-lg uppercase tracking-wider font-black">
+              Market
+            </Link>
             <Link href="/sell" className="text-white hover:text-super transition-colors font-display text-lg uppercase tracking-wider font-black">
               Sell
             </Link>
