@@ -37,7 +37,7 @@ export default function MarketIntelPage() {
   }, []);
 
   useEffect(() => {
-    fetch(`${API_BASE}/api/cards?page=1&limit=300`)
+    fetch(`${API_BASE}/api/cards?page=1&limit=200`)
       .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
       .then(data => { setCards(data.cards || []); setLoading(false); })
       .catch(e => { setError(e.message); setLoading(false); });
