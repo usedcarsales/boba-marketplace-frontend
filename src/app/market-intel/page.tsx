@@ -239,6 +239,17 @@ export default function MarketIntelPage() {
           </table>
         </div>
       </div>
+
+      {/* Radish Attribution */}
+      <div className="text-center py-8 border-t border-white/10">
+        <p className="text-white/40 text-sm">
+          📊 Market data and card images provided by{" "}
+          <a href="https://radishdijital.com/" target="_blank" rel="noopener noreferrer" className="text-super hover:underline font-display">
+            Radish Dijital
+          </a>
+          {" "}· Price tracking via eBay sales data
+        </p>
+      </div>
     </div>
   );
 }

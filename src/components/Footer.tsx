@@ -71,6 +71,9 @@ export function Footer() {
             </p>
           </div>
           <p className="text-white/30 text-xs text-center">
+            Card pricing and market data provided by <a href="https://radishdijital.com/" target="_blank" rel="noopener noreferrer" className="text-super hover:underline">Radish Dijital</a>. Card images from eBay sales data.
+          </p>
+          <p className="text-white/30 text-xs text-center">
             BoBA Trader is an independent third-party marketplace. We are not affiliated with, endorsed by, or sponsored by Bo Jackson Battle Arena, Inc., Blokpax, or any of their subsidiaries. Bo Jackson Battle Arena™ and all related characters, names, and artwork are the property of their respective owners. Card images are used for product identification purposes.
           </p>
         </div>

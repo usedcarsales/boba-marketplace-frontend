@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { API_BASE } from "@/lib/api";
+import PackingSlip from "@/components/PackingSlip";
 
 interface OrderItem {
   id: string;
@@ -71,6 +72,18 @@ export default function SellerOrdersPage() {
   // Ship form state
   const [shipForm, setShipForm] = useState<{ orderId: string; tracking: string; carrier: string; note: string } | null>(null);
   const [shipping, setShipping] = useState(false);
+  const [currentUser, setCurrentUser] = useState<{username: string; display_name: string | null} | null>(null);
+
+  useEffect(() => {
+    // Load current user info for packing slip
+    const token = localStorage.getItem("boba-token");
+    if (token) {
+      fetch(`${API_BASE}/api/users/me`, { headers: { Authorization: `Bearer ${token}` } })
+        .then(r => r.ok ? r.json() : null)
+        .then(data => data && setCurrentUser(data))
+        .catch(() => {});
+    }
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("boba-token");
@@ -333,14 +346,13 @@ export default function SellerOrdersPage() {
                       </div>
                     )}
 
-                    {/* Print packing slip link */}
-                    {(order.status === "paid" || order.status === "authorized") && (
-                      <button
-                        onClick={() => window.print()}
-                        className="text-base text-hex hover:text-hex-light font-display font-bold uppercase tracking-wider"
-                      >
-                        🖨️ Print Packing Slip
-                      </button>
+                    {/* Print packing slip */}
+                    {(order.status === "paid" || order.status === "authorized") && currentUser && (
+                      <PackingSlip
+                        order={order}
+                        sellerName={currentUser.display_name || currentUser.username}
+                        onClose={() => {}}
+                      />
                     )}
                   </div>
                 )}
