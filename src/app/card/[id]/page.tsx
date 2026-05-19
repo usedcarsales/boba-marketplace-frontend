@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { API_BASE } from "@/lib/api";
+import PriceAlert from "@/components/PriceAlert";
 
 interface CardData {
   id: string;
@@ -22,7 +23,6 @@ interface CardData {
   athlete: string | null;
   play_cost: number | null;
   play_ability: string | null;
-  radish_id: number | null;
   last_sale_price: number | null;
   last_sale_date: string | null;
   avg_price_30d: number | null;
@@ -473,7 +473,6 @@ export default function CardDetailPage() {
                     { label: "Year", value: card.year || "—" },
                     { label: "Power", value: card.power && card.power > 0 ? String(card.power) : "—" },
                     { label: "Athlete", value: card.athlete || "—" },
-                    { label: "Radish ID", value: card.radish_id ? String(card.radish_id) : "—" },
                   ].map((item) => (
                     <div key={item.label}>
                       <p className="text-xs text-white/30 font-display uppercase tracking-wider">{item.label}</p>
@@ -500,6 +499,15 @@ export default function CardDetailPage() {
           )}
         </div>
       </div>
+
+      {/* Price Alert Subscription */}
+      <section className="mt-8 max-w-md">
+        <PriceAlert
+          cardName={card.name}
+          currentPrice={card.last_sale_price || card.avg_price_30d || 0}
+          ebayPrice={card.avg_price_30d || card.last_sale_price || undefined}
+        />
+      </section>
 
       {/* Related Cards */}
       {relatedCards.length > 0 && (
